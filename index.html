@@ -7,34 +7,28 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background-color: #050a18; color: #ffffff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        
         .card { width: 90%; max-width: 400px; background: #101a32; border: 3px solid #00d2ff; border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 0 25px rgba(0, 210, 255, 0.4); }
-        .hidden { display: none !important; }
         h2 { color: #00d2ff; margin-bottom: 20px; text-transform: uppercase; }
-
         input { width: 100%; padding: 15px; margin-bottom: 15px; background: #050a18; border: 2px solid #1e293b; color: #00d2ff; border-radius: 10px; font-size: 16px; outline: none; }
-        .btn { width: 100%; padding: 15px; background: linear-gradient(90deg, #00d2ff, #3a7bd5); color: #000; font-weight: bold; font-size: 18px; border: none; border-radius: 10px; cursor: pointer; text-transform: uppercase; }
-
+        .btn { width: 100%; padding: 15px; background: linear-gradient(90deg, #00d2ff, #3a7bd5); color: #000; font-weight: bold; font-size: 18px; border: none; border-radius: 10px; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
         .img-container { width: 100%; min-height: 250px; background: #050a18; border: 1px dashed #00d2ff; border-radius: 10px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
         .img-container img { width: 100%; height: auto; display: block; }
-
-        .wheel-box { position: relative; width: 280px; height: 280px; margin: 20px auto; }
+        .wheel-box { position: relative; width: 260px; height: 260px; margin: 20px auto; }
         .arrow { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid #ff0000; z-index: 99; }
         canvas { width: 100%; height: 100%; border-radius: 50%; border: 4px solid #fff; background: #fff; }
-        #win-msg { font-size: 22px; color: #ffcc00; margin-top: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div class="card">
-        <div id="step1">
+        <div id="step1" style="display: block;">
             <h2>User Login</h2>
             <input type="text" id="uname" placeholder="Full Name">
             <input type="number" id="umob" placeholder="Mobile Number">
             <button class="btn" onclick="goToStep2()">Login</button>
         </div>
 
-        <div id="step2" class="hidden">
+        <div id="step2" style="display: none;">
             <h2>Shivay Finance</h2>
             <div class="img-container">
                 <img src="poster.png" onerror="this.src='https://via.placeholder.com/300x500?text=Shivay+Poster'">
@@ -42,17 +36,17 @@
             <button class="btn" onclick="goToStep3()">Try Your Luck</button>
         </div>
 
-        <div id="step3" class="hidden">
+        <div id="step3" style="display: none;">
             <h2>Spin to Win</h2>
             <div class="wheel-box">
                 <div class="arrow"></div>
                 <canvas id="c" width="300" height="300"></canvas>
             </div>
             <button id="sBtn" class="btn" onclick="spinNow()">SPIN NOW</button>
-            <div id="win-msg"></div>
+            <div id="win-msg" style="margin-top:15px; font-weight:bold; color:yellow;"></div>
         </div>
 
-        <div id="step4" class="hidden">
+        <div id="step4" style="display: none;">
             <h2 style="color: #00ff00;">CONGRATS!</h2>
             <div id="prize" style="background: #ffcc00; color: #000; padding: 15px; font-size: 26px; font-weight: bold; border-radius: 10px; margin-bottom: 20px;"></div>
             <div class="img-container">
@@ -63,7 +57,6 @@
     </div>
 
 <script>
-    // Config
     const list = ["5% OFF", "COLDRINK", "10% OFF", "ICECREAM", "20% OFF", "30% OFF"];
     const clrs = ["#ff0055", "#00fbff", "#ffcc00", "#10b981", "#8b5cf6", "#f43f5e"];
     const canv = document.getElementById("c");
@@ -72,19 +65,10 @@
     function draw() {
         const slice = (Math.PI * 2) / 6;
         for(let i=0; i<6; i++) {
-            ctx.beginPath();
-            ctx.fillStyle = clrs[i];
-            ctx.moveTo(150, 150);
-            ctx.arc(150, 150, 145, i * slice, (i+1) * slice);
-            ctx.fill();
-            ctx.stroke();
-            ctx.save();
-            ctx.translate(150, 150);
-            ctx.rotate(i * slice + slice/2);
-            ctx.fillStyle = "black";
-            ctx.font = "bold 14px Arial";
-            ctx.fillText(list[i], 60, 5);
-            ctx.restore();
+            ctx.beginPath(); ctx.fillStyle = clrs[i]; ctx.moveTo(150, 150);
+            ctx.arc(150, 150, 145, i * slice, (i+1) * slice); ctx.fill(); ctx.stroke();
+            ctx.save(); ctx.translate(150, 150); ctx.rotate(i * slice + slice/2);
+            ctx.fillStyle = "black"; ctx.font = "bold 14px Arial"; ctx.fillText(list[i], 60, 5); ctx.restore();
         }
     }
     draw();
@@ -92,14 +76,36 @@
     function goToStep2() {
         const n = document.getElementById('uname').value;
         const m = document.getElementById('umob').value;
-        if(n === "" || m === "") {
-            alert("Bhai, Naam aur Number toh daalo!");
-            return;
-        }
-        document.getElementById('step1').classList.add('hidden');
-        document.getElementById('step2').classList.remove('hidden');
+        if(n === "" || m === "") { alert("Naam aur Number bhariye!"); return; }
+        document.getElementById('step1').style.display = 'none';
+        document.getElementById('step2').style.display = 'block';
     }
 
     function goToStep3() {
-        document.getElementById('step2').classList.add('hidden');
-        document.getElementById('step3').classList.remove('hidden
+        document.getElementById('step2').style.display = 'none';
+        document.getElementById('step3').style.display = 'block';
+    }
+
+    function spinNow() {
+        const btn = document.getElementById('sBtn');
+        btn.disabled = true;
+        const deg = Math.floor(Math.random() * 360) + 2160; 
+        canv.style.transition = "transform 4s cubic-bezier(0.1, 0, 0.1, 1)";
+        canv.style.transform = "rotate(" + deg + "deg)";
+
+        setTimeout(function() {
+            const f = deg % 360;
+            const idx = Math.floor(((360 - f + 270) % 360) / 60);
+            const win = list[idx];
+            document.getElementById('win-msg').innerText = "Winner: " + win;
+            
+            setTimeout(function() {
+                document.getElementById('step3').style.display = 'none';
+                document.getElementById('step4').style.display = 'block';
+                document.getElementById('prize').innerText = win;
+            }, 1500);
+        }, 4000);
+    }
+</script>
+</body>
+</html>
