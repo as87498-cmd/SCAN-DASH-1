@@ -3,35 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bhanu Auto & Shivay Rewards</title>
+    <title>Scan-Dash: Shivay & Bhanu Rewards</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* EKDAM SIMPLE AUR MAJBOOT DESIGN */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background-color: #000000; /* Pura black background */
-            color: #ffffff;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
+            background: #020617;
+            background-image: radial-gradient(circle at 50% 50%, #1e293b 0%, #020617 100%);
+            color: #f8fafc;
+            font-family: 'Roboto', sans-serif;
+            display: flex; justify-content: center; align-items: center; min-height: 100vh;
         }
-
-        .box {
-            width: 90%;
-            max-width: 380px;
-            background-color: #111111; /* Dark Grey box */
-            border: 4px solid #00fbff; /* Neon border */
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
+        .container {
+            width: 95%; max-width: 400px;
+            background: #0f172a; border: 2px solid #38bdf8;
+            border-radius: 20px; padding: 20px; text-align: center;
+            box-shadow: 0 0 25px rgba(56, 189, 248, 0.3);
         }
-
         .hidden { display: none; }
-
-        /* INPUTS */
+        h1, h2 { font-family: 'Orbitron', sans-serif; color: #38bdf8; margin-bottom: 20px; }
+        
         input {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            background: #222;
+            width: 100%; padding: 15px; margin-bottom: 15px;
+            background: #1e293b; border: 1px solid #334155;
+            border-radius: 10px; color: white; font-size: 16px;
+        }
+        .btn {
+            width: 100%; padding: 15px; background: #38bdf8;
+            color: #0f172a; font-weight: bold; font-size: 18px;
+            border: none; border-radius: 10px; cursor: pointer;
+            text-transform: uppercase; transition: 0.3s;
+        }
+        .btn:hover { background: #7dd3fc; transform: scale(1.02); }
+
+        .poster-box {
+            width: 100%; min-height: 300px; background: #1e293b;
+            border-radius: 10px; margin-bottom: 15px; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .poster-box img { width: 100%; height: auto; display: block; }
+
+        /* Professional Wheel Section */
+        .wheel-container { position: relative; width: 280px; height: 280px; margin: 20px auto; }
+        .pointer {
+            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 0; border-left: 15px solid transparent;
+            border-right: 15px solid transparent; border-top: 30px solid #ef4444;
+            z-index: 10; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.5));
+        }
+        canvas {
+            width: 100%; height: 100%; border-radius: 50%;
+            border: 6px solid #f8fafc; box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+        }
+        #result { font-size: 22px; font-weight: bold; color: #fbbf24; margin-top: 15px; height: 30px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="login">
+        <h1>LOGIN</h1>
+        <input type="text" id="name" placeholder="Enter Full Name">
+        <input type="number" id="mob" placeholder="Mobile Number">
+        <button class="btn" onclick="showSection('shivay')">Open Rewards</button>
+    </div>
+
+    <div id="shivay" class="hidden">
+        <h2>SHIVAY FINANCE</h2>
+        <div class="poster-box">
+            <img src="poster.png" onerror="this.src='https://via.placeholder.com/300x500/1e293b/38bdf8?text=Shivay+Poster+Missing'">
+        </div>
+        <button class="btn" onclick="showSection('game')">Next: Spin & Win</button>
+    </div>
+
+    <div id="game" class="hidden">
+        <h2>SPIN TO WIN</h2>
+        <div class="wheel-container">
+            <div class="pointer"></div>
+            <canvas id="wheel" width="300" height="300"></canvas>
+        </div>
+        <button id="spinBtn" class="btn" onclick="spin()">SPIN NOW</button>
+        <div id="result"></div>
+    </div>
+
+    <div id="bhanu" class="hidden">
+        <h2 style="color: #4ade80;">CONGRATS!</h2>
+        <div id="prize-box" style="font-size: 24px; color: #0f172a; background: #fbbf24; padding: 15px; border-radius: 10px; margin-bottom: 20px; font-weight: bold;"></div>
+        <div class="poster-box">
+            <img src="banner.png" onerror="this.src='https://via.placeholder.com/300x500/1e293b/4ade80?text=Bhanu+Auto+Missing'">
+        </div>
+        <p style="font-size: 14px; margin-top: 10px;">Screenshot le kar Bhanu Auto par dikhayein!</p>
+    </div>
+</div>
+
+<script>
+    const prizes = ["5% OFF", "FREE COLD DRINK", "10% OFF", "FREE ICECREAM", "20% OFF", "30% OFF"];
+    const colors = ["#0ea5e9", "#6366f1", "#8b5cf6", "#ec4899", "#f43f5e", "#f59e0b"];
+    const canvas = document.getElementById("wheel");
+    const ctx = canvas.getContext("2d");
+
+    function drawWheel() {
+        const slice = (Math.PI * 2) / 6;
+        for(let i=0; i<6; i++) {
+            ctx.beginPath();
+            ctx.fillStyle = colors[i];
+            ctx.moveTo(150, 150);
+            ctx.arc(150, 150, 145, i * slice, (i+1) * slice);
+            ctx.fill();
+            ctx.strokeStyle = "white";
+            ctx.stroke();
+            
+            ctx.save();
+            ctx.translate(150, 150);
+            ctx.rotate(i * slice + slice/2);
+            ctx.fillStyle = "white";
+            ctx.font = "bold 14px Arial";
+            ctx.textAlign = "right";
+            ctx.fillText(prizes[i], 130, 5);
+            ctx.restore();
+        }
+    }
+    drawWheel();
+
+    function showSection(id) {
+        if(id === 'shivay' && (!document.getElementById('name').value || !document.getElementById('mob').value)) {
+            alert("Please fill details!"); return;
+        }
+        document.querySelectorAll('.container > div').forEach(div => div.classList.add('hidden'));
+        document.getElementById(id).classList.remove('hidden');
+    }
+
+    let spinning = false;
+    function spin() {
+        if(spinning) return;
+        spinning = true;
+        const btn = document.getElementById('spinBtn');
+        btn.disabled = true;
+        
+        const rotation = Math.floor(Math.random() * 360) + 1800; // 5 spins min
+        canvas.style.transition = "transform 4s cubic-bezier(0.1, 0, 0.1, 1)";
+        canvas.style.transform = `rotate(${rotation}deg)`;
+
+        setTimeout(() => {
+            const actualDeg = rotation % 360;
+            // Adjustment logic to match the top pointer
+            const winningIndex = Math.floor(((360 - actualDeg + 270) % 360) / 60);
+            const wonPrize = prizes[winningIndex];
+            
+            document.getElementById('result').innerText = "Winner: " + wonPrize;
+
+            setTimeout(() => {
+                showSection('bhanu');
+                document.getElementById('prize-box').innerText = wonPrize;
+            }, 1500);
+        }, 4000);
+    }
+</script>
+
+</body>
+</html>
