@@ -5,105 +5,146 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SCAN-DASH | Shivay & Bhanu</title>
     <style>
-        /* FULL ROBUST DESIGN - NO TRANSPARENCY ISSUES */
+        /* Modern Dark Theme */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
-            background-color: #05070a; /* Ultra Dark Blue */
+            background-color: #020617;
+            background-image: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
             color: #ffffff;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex; justify-content: center; align-items: center; min-height: 100vh;
         }
-
-        .main-card {
-            width: 90%;
-            max-width: 400px;
-            background-color: #0f172a; /* Solid Deep Blue */
-            border: 3px solid #38bdf8; /* Cyan Border */
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 0 30px rgba(56, 189, 248, 0.4);
+        .card {
+            width: 90%; max-width: 400px;
+            background: #0f172a; border: 2px solid #38bdf8;
+            border-radius: 20px; padding: 25px; text-align: center;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
         }
-
         .hidden { display: none; }
-
-        h2 { color: #38bdf8; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
-
+        h2 { color: #38bdf8; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        
         input {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
-            background: #1e293b;
-            border: 2px solid #334155;
-            color: #fff;
-            border-radius: 10px;
-            font-size: 16px;
+            width: 100%; padding: 15px; margin-bottom: 15px;
+            background: #1e293b; border: 1px solid #334155;
+            border-radius: 10px; color: white; font-size: 16px;
         }
-
-        .action-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(90deg, #38bdf8, #818cf8);
-            color: #000;
-            font-weight: bold;
-            font-size: 18px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-top: 15px;
-            text-transform: uppercase;
+        .btn {
+            width: 100%; padding: 15px; background: #38bdf8;
+            color: #0f172a; font-weight: bold; font-size: 18px;
+            border: none; border-radius: 10px; cursor: pointer;
+            text-transform: uppercase; transition: 0.3s;
         }
+        .btn:hover { background: #7dd3fc; transform: translateY(-2px); }
 
-        /* IMAGE HANDLING */
-        .img-container {
-            width: 100%;
-            min-height: 250px;
-            background: #1e293b;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px dashed #38bdf8;
-            overflow: hidden;
+        .img-box {
+            width: 100%; min-height: 200px; background: #1e293b;
+            border-radius: 10px; margin-bottom: 15px; overflow: hidden;
+            border: 1px dashed #38bdf8; display: flex; align-items: center; justify-content: center;
         }
+        .img-box img { width: 100%; height: auto; }
 
-        .img-container img {
-            width: 100%;
-            height: auto;
-            display: block;
+        /* Professional Wheel */
+        .wheel-wrap { position: relative; width: 280px; height: 280px; margin: 20px auto; }
+        .pointer {
+            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 0; border-left: 15px solid transparent;
+            border-right: 15px solid transparent; border-top: 30px solid #f43f5e;
+            z-index: 10;
         }
+        canvas { width: 100%; height: 100%; border-radius: 50%; border: 4px solid #fff; }
+        #win-txt { font-size: 20px; color: #fbbf24; margin-top: 15px; font-weight: bold; min-height: 24px; }
+    </style>
+</head>
+<body>
 
-        /* SPIN WHEEL */
-        .wheel-box {
-            position: relative;
-            width: 280px;
-            height: 280px;
-            margin: 20px auto;
+<div class="card">
+    <div id="step1">
+        <h2>User Login</h2>
+        <input type="text" id="nameInput" placeholder="Enter Name">
+        <input type="number" id="mobInput" placeholder="Mobile Number">
+        <button class="btn" onclick="nextStep('step2')">Login</button>
+    </div>
+
+    <div id="step2" class="hidden">
+        <h2>Shivay Finance</h2>
+        <div class="img-box">
+            <img src="poster.png" onerror="this.src='https://via.placeholder.com/300x500/1e293b/38bdf8?text=Shivay+Poster+Missing'">
+        </div>
+        <button class="btn" onclick="nextStep('step3')">Go to Wheel</button>
+    </div>
+
+    <div id="step3" class="hidden">
+        <h2>Lucky Spin</h2>
+        <div class="wheel-wrap">
+            <div class="pointer"></div>
+            <canvas id="wheelCanvas" width="300" height="300"></canvas>
+        </div>
+        <button id="spinBtn" class="btn" onclick="doSpin()">SPIN NOW</button>
+        <div id="win-txt"></div>
+    </div>
+
+    <div id="step4" class="hidden">
+        <h2 style="color: #4ade80;">Congratulations!</h2>
+        <div id="prizeLabel" style="background: #fbbf24; color: #000; padding: 15px; font-size: 24px; font-weight: bold; border-radius: 10px; margin-bottom: 20px;"></div>
+        <div class="img-box">
+            <img src="banner.png" onerror="this.src='https://via.placeholder.com/300x500/1e293b/4ade80?text=Bhanu+Auto+Missing'">
+        </div>
+        <p>Bhanu Auto Service, Ratlam</p>
+    </div>
+</div>
+
+<script>
+    const rewards = ["5% OFF", "COLDRINK", "10% OFF", "ICECREAM", "20% OFF", "30% OFF"];
+    const colors = ["#0ea5e9", "#6366f1", "#8b5cf6", "#ec4899", "#f43f5e", "#f59e0b"];
+    const cvs = document.getElementById("wheelCanvas");
+    const ctx = cvs.getContext("2d");
+
+    function draw() {
+        const slice = (Math.PI * 2) / 6;
+        for(let i=0; i<6; i++) {
+            ctx.beginPath();
+            ctx.fillStyle = colors[i];
+            ctx.moveTo(150, 150);
+            ctx.arc(150, 150, 145, i * slice, (i+1) * slice);
+            ctx.fill();
+            ctx.stroke();
+            ctx.save();
+            ctx.translate(150, 150);
+            ctx.rotate(i * slice + slice/2);
+            ctx.fillStyle = "white";
+            ctx.font = "bold 14px Arial";
+            ctx.fillText(rewards[i], 60, 5);
+            ctx.restore();
         }
+    }
+    draw();
 
-        .arrow {
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0; height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-top: 30px solid #ef4444; /* Red Pointer */
-            z-index: 50;
+    function nextStep(id) {
+        if(id === 'step2' && (!document.getElementById('nameInput').value || !document.getElementById('mobInput').value)) {
+            alert("Details bhariye!"); return;
         }
+        document.querySelectorAll('.card > div').forEach(d => d.classList.add('hidden'));
+        document.getElementById(id).classList.remove('hidden');
+    }
 
-        canvas {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 5px solid #fff;
-        }
+    function doSpin() {
+        const btn = document.getElementById('spinBtn');
+        btn.disabled = true;
+        const deg = Math.floor(Math.random() * 360) + 2160;
+        cvs.style.transition = "transform 4s cubic-bezier(0.1, 0, 0.1, 1)";
+        cvs.style.transform = `rotate(${deg}deg)`;
 
-        #status { font-size: 20px; color: #
+        setTimeout(() => {
+            const final = deg % 360;
+            const idx = Math.floor(((360 - final + 270) % 360) / 60);
+            const prize = rewards[idx];
+            document.getElementById('win-txt').innerText = "You Won: " + prize;
+            setTimeout(() => {
+                nextStep('step4');
+                document.getElementById('prizeLabel').innerText = prize;
+            }, 1500);
+        }, 4000);
+    }
+</script>
+</body>
+</html>
