@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shivay & Bhanu Rewards</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; text-align: center; background: #0f172a; color: white; margin: 0; }
+        .container { padding: 20px; max-width: 500px; margin: auto; }
+        .hidden { display: none; }
+        input { padding: 10px; margin: 10px; width: 80%; border-radius: 5px; border: none; }
+        button { padding: 10px 20px; background: #2563eb; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        
+        /* Poster Styles */
+        .poster { width: 100%; border-radius: 15px; box-shadow: 0 0 20px rgba(0,255,255,0.5); margin-bottom: 20px; }
+        
+        /* Spin Wheel Simple Style */
+        #wheel-container { position: relative; width: 300px; height: 300px; margin: 20px auto; border: 5px solid #fff; border-radius: 50%; overflow: hidden; transition: transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67); }
+        .segment { position: absolute; width: 100%; height: 100%; clip-path: polygon(50% 50%, 100% 0, 100% 100%); background: orange; transform-origin: 50% 50%; }
+        #pointer { font-size: 30px; margin-top: -10px; color: red; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="login-screen">
+        <h2>Welcome</h2>
+        <input type="text" id="name" placeholder="Enter Your Name">
+        <input type="number" id="mob" placeholder="Mobile Number">
+        <br>
+        <button onclick="showPoster()">Login & Start</button>
+    </div>
+
+    <div id="shivay-screen" class="hidden">
+        <img src="https://via.placeholder.com/400x700?text=Shivay+Finance+Poster" class="poster" alt="Shivay Finance">
+        <button onclick="showWheel()">Spin for Discount!</button>
+    </div>
+
+    <div id="wheel-screen" class="hidden">
+        <div id="pointer">▼</div>
+        <div id="wheel-container">
+            <div style="background: #e74c3c; transform: rotate(0deg);" class="segment"></div>
+            <div style="background: #3498db; transform: rotate(60deg);" class="segment"></div>
+            <div style="background: #2ecc71; transform: rotate(120deg);" class="segment"></div>
+            <div style="background: #f1c40f; transform: rotate(180deg);" class="segment"></div>
+            <div style="background: #9b59b6; transform: rotate(240deg);" class="segment"></div>
+            <div style="background: #e67e22; transform: rotate(300deg);" class="segment"></div>
+        </div>
+        <button id="spin-btn" onclick="spinWheel()">SPIN NOW</button>
+        <h3 id="reward-text"></h3>
+    </div>
+
+    <div id="bhanu-screen" class="hidden">
+        <h2 style="color: #00ff00;">Congratulations!</h2>
+        <p id="final-reward"></p>
+        <img src="https://via.placeholder.com/400x700?text=Bhanu+Auto+Poster" class="poster" alt="Bhanu Auto">
+        <p>Show this screen at the counter!</p>
+    </div>
+</div>
+
+<script>
+    const rewards = ["5% Discount", "10% Discount", "20% Discount", "30% Discount", "Free Coldrink", "Free Ice Cream"];
+
+    function showPoster() {
+        if(document.getElementById('name').value && document.getElementById('mob').value) {
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('shivay-screen').classList.remove('hidden');
+        } else {
+            alert("Please enter details");
+        }
+    }
+
+    function showWheel() {
+        document.getElementById('shivay-screen').classList.add('hidden');
+        document.getElementById('wheel-screen').classList.remove('hidden');
+    }
+
+    function spinWheel() {
+        const wheel = document.getElementById('wheel-container');
+        const randomDeg = Math.floor(Math.random() * 360) + 1440; // 4 full spins
+        wheel.style.transform = `rotate(${randomDeg}deg)`;
+        
+        document.getElementById('spin-btn').disabled = true;
+
+        setTimeout(() => {
+            const actualDeg = randomDeg % 360;
+            const index = Math.floor(actualDeg / 60);
+            const reward = rewards[index];
+            
+            document.getElementById('reward-text').innerText = "You won: " + reward;
+            
+            setTimeout(() => {
+                document.getElementById('wheel-screen
