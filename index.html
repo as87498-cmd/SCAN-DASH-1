@@ -4,123 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bhanu Auto & Shivay Rewards</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;900&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+        /* EKDAM SIMPLE AUR MAJBOOT DESIGN */
         body {
-            background: #050a18; /* Deep Dark Blue (Avengers Theme) */
-            background-image: radial-gradient(circle at 50% 50%, #102a43 0%, #050a18 100%);
-            font-family: 'Roboto', sans-serif;
-            color: white;
+            background-color: #000000; /* Pura black background */
+            color: #ffffff;
+            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            margin: 0;
         }
 
-        .main-container {
+        .box {
             width: 90%;
-            max-width: 400px;
-            background: #10213e; /* Solid dark background */
-            border: 3px solid #00d2ff;
-            border-radius: 20px;
-            padding: 25px;
+            max-width: 380px;
+            background-color: #111111; /* Dark Grey box */
+            border: 4px solid #00fbff; /* Neon border */
+            border-radius: 15px;
+            padding: 20px;
             text-align: center;
-            box-shadow: 0 0 20px #00d2ff;
-        }
-
-        h2 { font-family: 'Orbitron', sans-serif; color: #00d2ff; margin-bottom: 20px; text-transform: uppercase; }
-
-        /* Input Fields */
-        .input-field {
-            width: 100%;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 10px;
-            border: 2px solid #1d3557;
-            background: #050a18;
-            color: #00d2ff;
-            font-size: 16px;
-            outline: none;
-        }
-        .input-field:focus { border-color: #00d2ff; }
-
-        .btn {
-            background: linear-gradient(90deg, #ff0055, #ffcc00);
-            color: #000;
-            padding: 15px;
-            width: 100%;
-            border: none;
-            border-radius: 10px;
-            font-weight: 900;
-            font-size: 18px;
-            cursor: pointer;
-            text-transform: uppercase;
-            box-shadow: 0 4px 15px rgba(255, 0, 85, 0.4);
         }
 
         .hidden { display: none; }
 
-        /* Poster Image Style */
-        .poster {
+        /* INPUTS */
+        input {
             width: 100%;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border: 2px solid #fff;
-        }
-
-        /* Spin Wheel Section */
-        .wheel-area {
-            position: relative;
-            width: 300px;
-            height: 300px;
-            margin: 20px auto;
-        }
-        
-        /* The Red Arrow */
-        .arrow-top {
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0; height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-top: 30px solid #ff0000; /* Red Arrow */
-            z-index: 10;
-        }
-
-        #wheelCanvas {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 5px solid #fff;
-            box-shadow: 0 0 15px #00d2ff;
-        }
-
-        #result-text { font-size: 20px; color: #ffcc00; margin-top: 10px; font-weight: bold; }
-    </style>
-</head>
-<body>
-
-    <div class="main-container">
-        
-        <div id="step-login">
-            <h2>User Login</h2>
-            <input type="text" id="uname" class="input-field" placeholder="Aapka Naam">
-            <input type="number" id="umob" class="input-field" placeholder="Mobile Number">
-            <button class="btn" onclick="goNext('step-poster')">Open Rewards</button>
-        </div>
-
-        <div id="step-poster" class="hidden">
-            <h2>Shivay Finance</h2>
-            <img src="poster.png" class="poster" onerror="this.src='https://via.placeholder.com/300x500?text=Poster+Missing'">
-            <button class="btn" onclick="goNext('step-spin')">Click to Spin</button>
-        </div>
-
-        <div id="step-spin" class="hidden">
-            <h2>Try Your Luck</h2>
-            <div class="wheel-area">
-                <div class="arrow-top"></div>
-                <canvas id="wheelCanvas" width="3
+            padding: 15px;
+            margin: 10px 0;
+            background: #222;
