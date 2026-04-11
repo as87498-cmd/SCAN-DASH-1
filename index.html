@@ -3,63 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SCAN-DASH | SHIVAY & BHANU</title>
+    <title>SCAN-DASH | NEON EDITION</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: #050a18; color: #ffffff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
-        .card { width: 95%; max-width: 400px; background: #101a32; border: 3px solid #00d2ff; border-radius: 20px; padding: 20px; text-align: center; box-shadow: 0 0 25px rgba(0, 210, 255, 0.4); }
-        h2 { color: #00d2ff; margin-bottom: 15px; text-transform: uppercase; font-size: 1.2rem; }
-        input { width: 100%; padding: 15px; margin-bottom: 15px; background: #050a18; border: 2px solid #1e293b; color: #00d2ff; border-radius: 10px; font-size: 16px; outline: none; }
-        .btn { width: 100%; padding: 15px; background: linear-gradient(90deg, #00d2ff, #3a7bd5); color: #000; font-weight: bold; font-size: 18px; border: none; border-radius: 10px; cursor: pointer; text-transform: uppercase; }
-        .img-container { width: 100%; height: 200px; background: #050a18; border-radius: 10px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .img-container img { width: 100%; height: auto; }
-        
-        /* Game Area */
-        #gameArea { width: 100%; height: 200px; background: #050a18; border: 2px solid #333; position: relative; overflow: hidden; display: none; margin-bottom: 10px; border-radius: 10px; }
-        #mario { width: 30px; height: 30px; background: #ff0055; position: absolute; bottom: 0; left: 50px; border-radius: 5px; box-shadow: 0 0 10px #ff0055; }
-        #obstacle { width: 20px; height: 40px; background: #00fbff; position: absolute; bottom: 0; right: -20px; box-shadow: 0 0 10px #00fbff; }
-        #score { position: absolute; top: 10px; right: 10px; color: #fff; font-weight: bold; }
-        .jump { animation: jump 0.5s linear; }
-        @keyframes jump { 0% { bottom: 0; } 30% { bottom: 80px; } 70% { bottom: 80px; } 100% { bottom: 0; } }
+        body { 
+            background: #020205; 
+            color: #ffffff; 
+            font-family: 'Segoe UI', sans-serif; 
+            display: flex; justify-content: center; align-items: center; 
+            min-height: 100vh; overflow: hidden;
+        }
+
+        /* Masala: Animated Background */
+        body::before {
+            content: ""; position: absolute; width: 200%; height: 200%;
+            background: radial-gradient(circle, #00d2ff1a 0%, #ff00551a 50%, #020205 100%);
+            animation: moveBg 10s linear infinite; z-index: -1;
+        }
+        @keyframes moveBg { from { transform: translate(-25%, -25%); } to { transform: translate(0, 0); } }
+
+        .card { 
+            width: 95%; max-width: 400px; 
+            background: rgba(16, 26, 50, 0.8); 
+            backdrop-filter: blur(15px);
+            border: 2px solid #00d2ff; 
+            border-radius: 25px; padding: 25px; text-align: center; 
+            box-shadow: 0 0 30px rgba(0, 210, 255, 0.3), inset 0 0 15px rgba(0, 210, 255, 0.1);
+        }
+
+        h2 { 
+            color: #00d2ff; margin-bottom: 20px; text-transform: uppercase; 
+            letter-spacing: 2px; text-shadow: 0 0 10px #00d2ff;
+        }
+
+        /* Masala: Glowing Inputs */
+        input { 
+            width: 100%; padding: 15px; margin-bottom: 15px; 
+            background: rgba(5, 10, 24, 0.6); 
+            border: 1px solid #1e293b; color: #00fbff; 
+            border-radius: 12px; font-size: 16px; outline: none;
+            transition: 0.3s;
+        }
+        input:focus { border-color: #00fbff; box-shadow: 0 0 15px rgba(0, 251, 255, 0.4); }
+
+        .btn { 
+            width: 100%; padding: 16px; 
+            background: linear-gradient(45deg, #00d2ff, #3a7bd5); 
+            color: #fff; font-weight: bold; font-size: 18px; 
+            border: none; border-radius: 12px; cursor: pointer; 
+            text-transform: uppercase; transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
+        }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0, 210, 255, 0.6); }
+
+        /* Poster Fix: Auto height so it shows full image */
+        .img-container { 
+            width: 100%; margin-bottom: 20px; border-radius: 15px; 
+            overflow: hidden; border: 1px solid rgba(0, 210, 255, 0.3);
+            background: #000;
+        }
+        .img-container img { width: 100%; height: auto; display: block; }
+
+        /* Game Masala */
+        #gameArea { 
+            width: 100%; height: 220px; background: #050a18; 
+            border: 2px solid #333; position: relative; overflow: hidden; 
+            display: none; border-radius: 15px; margin-top: 10px;
+        }
+        #mario { 
+            width: 35px; height: 35px; background: #ff0055; 
+            position: absolute; bottom: 0; left: 40px; border-radius: 8px; 
+            box-shadow: 0 0 15px #ff0055;
+        }
+        #obstacle { 
+            width: 25px; height: 45px; background: #00fbff; 
+            position: absolute; bottom: 0; right: -30px; 
+            box-shadow: 0 0 15px #00fbff; border-radius: 5px;
+        }
+        #score { position: absolute; top: 10px; left: 15px; font-weight: bold; color: #00d2ff; }
+
+        .jump { animation: jump 0.5s ease-out; }
+        @keyframes jump { 0% { bottom: 0; } 50% { bottom: 100px; } 100% { bottom: 0; } }
+
+        #prize { 
+            background: linear-gradient(45deg, #ffcc00, #ff8800); 
+            color: #000; padding: 20px; font-size: 28px; 
+            font-weight: 900; border-radius: 15px; margin-bottom: 20px;
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
 
     <div class="card">
         <div id="step1">
-            <h2>User Login</h2>
-            <input type="text" id="uname" placeholder="Full Name">
-            <input type="number" id="umob" placeholder="Mobile Number">
-            <button class="btn" onclick="goToStep2()">Login</button>
+            <h2 style="color: #ff0055; text-shadow: 0 0 10px #ff0055;">Access Dash</h2>
+            <input type="text" id="uname" placeholder="Enter Full Name">
+            <input type="number" id="umob" placeholder="WhatsApp Number">
+            <button class="btn" onclick="goToStep2()" style="background: linear-gradient(45deg, #ff0055, #8b5cf6);">Verify Login</button>
         </div>
 
         <div id="step2" style="display: none;">
             <h2>Shivay Finance</h2>
             <div class="img-container">
-                <img src="poster.png" onerror="this.src='https://via.placeholder.com/300x200?text=Shivay+Finance+Loans'">
+                <img src="poster.png" onerror="this.src='https://via.placeholder.com/400x600/000000/00d2ff?text=Shivay+Finance+Full+Ad'">
             </div>
-            <p style="font-size: 0.8rem; margin-bottom: 10px;">Obstacle se bacho aur Reward jito!</p>
-            <button class="btn" onclick="startDashGame()">Start Game</button>
+            <button class="btn" onclick="startDashGame()">Play to Win Reward</button>
         </div>
 
         <div id="step3" style="display: none;">
-            <h2>Jump to Win!</h2>
+            <h2>Neon Dash</h2>
             <div id="gameArea" onclick="jump()">
                 <div id="score">Score: 0</div>
                 <div id="mario"></div>
                 <div id="obstacle"></div>
             </div>
-            <p style="font-size: 0.7rem; color: #aaa;">Screen par Tap karein Jump karne ke liye</p>
+            <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">Tap to Jump Over Obstacles!</p>
         </div>
 
         <div id="step4" style="display: none;">
-            <h2 style="color: #00ff00;">CONGRATS!</h2>
-            <div id="prize" style="background: #ffcc00; color: #000; padding: 15px; font-size: 24px; font-weight: bold; border-radius: 10px; margin-bottom: 15px;"></div>
+            <h2 style="color: #00ff00;">JACKPOT!</h2>
+            <div id="prize"></div>
             <div class="img-container">
-                <img src="banner.png" onerror="this.src='https://via.placeholder.com/300x200?text=Bhanu+Auto+Service'">
+                <img src="banner.png" onerror="this.src='https://via.placeholder.com/400x500/000000/ffcc00?text=Bhanu+Auto+Service'">
             </div>
-            <p style="color: #00d2ff; font-weight: bold;">Bhanu Auto Service, Ratlam</p>
-            <button class="btn" style="margin-top:10px;" onclick="location.reload()">Play Again</button>
+            <p style="color: #00fbff; font-weight: bold; letter-spacing: 1px;">Bhanu Auto Service, Ratlam</p>
+            <button class="btn" style="margin-top:20px;" onclick="location.reload()">Try Again</button>
         </div>
     </div>
 
@@ -68,11 +138,10 @@
     let gameRunning = false;
     const mario = document.getElementById("mario");
     const obstacle = document.getElementById("obstacle");
-    const scoreDisplay = document.getElementById("score");
 
     function goToStep2() {
         if(document.getElementById('uname').value === "" || document.getElementById('umob').value === "") {
-            alert("Details bhariye bhai!"); return;
+            alert("Masala tabhi milega jab details bhari jayengi!"); return;
         }
         document.getElementById('step1').style.display = 'none';
         document.getElementById('step2').style.display = 'block';
@@ -83,6 +152,7 @@
         document.getElementById('step3').style.display = 'block';
         document.getElementById('gameArea').style.display = 'block';
         gameRunning = true;
+        score = 0;
         runGame();
     }
 
@@ -95,22 +165,23 @@
 
     function runGame() {
         let obstaclePos = 400;
+        let speed = 6;
         let interval = setInterval(() => {
             if(!gameRunning) { clearInterval(interval); return; }
 
-            obstaclePos -= 5;
-            if(obstaclePos < -20) {
+            obstaclePos -= speed;
+            if(obstaclePos < -30) {
                 obstaclePos = 400;
                 score++;
-                scoreDisplay.innerText = "Score: " + score;
+                speed += 0.2; // Game gets harder (masala!)
+                document.getElementById("score").innerText = "Score: " + score;
             }
             obstacle.style.right = (400 - obstaclePos) + "px";
 
-            // Collision Detection
             let marioBottom = parseInt(window.getComputedStyle(mario).getPropertyValue("bottom"));
             let obstacleLeft = parseInt(window.getComputedStyle(obstacle).getPropertyValue("left"));
 
-            if(obstacleLeft < 80 && obstacleLeft > 50 && marioBottom <= 40) {
+            if(obstacleLeft < 75 && obstacleLeft > 40 && marioBottom <= 45) {
                 gameRunning = false;
                 showPrize();
             }
@@ -118,10 +189,9 @@
     }
 
     function showPrize() {
-        const rewards = ["COLDRINK", "5% OFF", "10% OFF", "FREE WASH", "20% OFF", "ICECREAM"];
-        // Score ke hisab se reward
+        const rewards = ["COLDRINK", "5% OFF", "10% OFF", "FREE OIL CHECK", "20% OFF", "ICECREAM", "30% OFF"];
         let win = rewards[score % rewards.length];
-        if(score > 10) win = "30% SUPER OFF";
+        if(score >= 10) win = "🔥 MEGA 50% OFF";
 
         document.getElementById('step3').style.display = 'none';
         document.getElementById('step4').style.display = 'block';
