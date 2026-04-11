@@ -5,96 +5,145 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SCAN-DASH | Shivay & Bhanu</title>
     <style>
-        /* Modern Dark Theme */
+        /* FULL ROBUST DESIGN */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background-color: #020617;
-            background-image: radial-gradient(circle at center, #1e293b 0%, #020617 100%);
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex; justify-content: center; align-items: center; min-height: 100vh;
-        }
-        .card {
-            width: 90%; max-width: 400px;
-            background: #0f172a; border: 2px solid #38bdf8;
-            border-radius: 20px; padding: 25px; text-align: center;
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
-        }
-        .hidden { display: none; }
-        h2 { color: #38bdf8; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
         
-        input {
-            width: 100%; padding: 15px; margin-bottom: 15px;
-            background: #1e293b; border: 1px solid #334155;
-            border-radius: 10px; color: white; font-size: 16px;
+        body {
+            background-color: #020617; /* Dark Background */
+            background-image: radial-gradient(circle, #1e293b, #020617);
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
         }
-        .btn {
-            width: 100%; padding: 15px; background: #38bdf8;
-            color: #0f172a; font-weight: bold; font-size: 18px;
-            border: none; border-radius: 10px; cursor: pointer;
-            text-transform: uppercase; transition: 0.3s;
-        }
-        .btn:hover { background: #7dd3fc; transform: translateY(-2px); }
 
-        .img-box {
-            width: 100%; min-height: 200px; background: #1e293b;
-            border-radius: 10px; margin-bottom: 15px; overflow: hidden;
-            border: 1px dashed #38bdf8; display: flex; align-items: center; justify-content: center;
-        }
-        .img-box img { width: 100%; height: auto; }
-
-        /* Professional Wheel */
-        .wheel-wrap { position: relative; width: 280px; height: 280px; margin: 20px auto; }
-        .pointer {
-            position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
-            width: 0; height: 0; border-left: 15px solid transparent;
-            border-right: 15px solid transparent; border-top: 30px solid #f43f5e;
+        .main-container {
+            width: 90%;
+            max-width: 400px;
+            background: #0f172a;
+            border: 2px solid #38bdf8; /* Neon Blue Border */
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+            position: relative;
             z-index: 10;
         }
-        canvas { width: 100%; height: 100%; border-radius: 50%; border: 4px solid #fff; }
-        #win-txt { font-size: 20px; color: #fbbf24; margin-top: 15px; font-weight: bold; min-height: 24px; }
+
+        .hidden { display: none !important; }
+
+        h2 { color: #38bdf8; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            color: white;
+            border-radius: 10px;
+            font-size: 16px;
+            display: block;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: #38bdf8;
+            color: #0f172a;
+            font-weight: bold;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        /* IMAGE STYLE */
+        .img-wrap {
+            width: 100%;
+            min-height: 250px;
+            background: #1e293b;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed #38bdf8;
+            overflow: hidden;
+        }
+        .img-wrap img { width: 100%; height: auto; display: block; }
+
+        /* WHEEL DESIGN */
+        .wheel-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            margin: 20px auto;
+        }
+        .pointer {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0; height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 30px solid #ef4444; /* Red Arrow */
+            z-index: 100;
+        }
+        #wheelCanvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 5px solid #fff;
+        }
+        #win-text { font-size: 20px; color: #fbbf24; margin-top: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <div id="step1">
-        <h2>User Login</h2>
-        <input type="text" id="nameInput" placeholder="Enter Name">
-        <input type="number" id="mobInput" placeholder="Mobile Number">
-        <button class="btn" onclick="nextStep('step2')">Login</button>
-    </div>
-
-    <div id="step2" class="hidden">
-        <h2>Shivay Finance</h2>
-        <div class="img-box">
-            <img src="poster.png" onerror="this.src='https://via.placeholder.com/300x500/1e293b/38bdf8?text=Shivay+Poster+Missing'">
+    <div class="main-container">
+        <div id="step-1">
+            <h2>Customer Login</h2>
+            <input type="text" id="cust-name" placeholder="Enter Your Name">
+            <input type="number" id="cust-mob" placeholder="Mobile Number">
+            <button class="btn" onclick="goToStep('step-2')">Login Now</button>
         </div>
-        <button class="btn" onclick="nextStep('step3')">Go to Wheel</button>
-    </div>
 
-    <div id="step3" class="hidden">
-        <h2>Lucky Spin</h2>
-        <div class="wheel-wrap">
-            <div class="pointer"></div>
-            <canvas id="wheelCanvas" width="300" height="300"></canvas>
+        <div id="step-2" class="hidden">
+            <h2>Shivay Finance</h2>
+            <div class="img-wrap">
+                <img src="poster.png" onerror="this.src='https://via.placeholder.com/300x500/1e293b/38bdf8?text=Shivay+Finance+Poster'">
+            </div>
+            <button class="btn" onclick="goToStep('step-3')">Spin to Win</button>
         </div>
-        <button id="spinBtn" class="btn" onclick="doSpin()">SPIN NOW</button>
-        <div id="win-txt"></div>
-    </div>
 
-    <div id="step4" class="hidden">
-        <h2 style="color: #4ade80;">Congratulations!</h2>
-        <div id="prizeLabel" style="background: #fbbf24; color: #000; padding: 15px; font-size: 24px; font-weight: bold; border-radius: 10px; margin-bottom: 20px;"></div>
-        <div class="img-box">
-            <img src="banner.png" onerror="this.src='https://via.placeholder.com/300x500/1e293b/4ade80?text=Bhanu+Auto+Missing'">
+        <div id="step-3" class="hidden">
+            <h2>Lucky Spin</h2>
+            <div class="wheel-container">
+                <div class="pointer"></div>
+                <canvas id="wheelCanvas" width="300" height="300"></canvas>
+            </div>
+            <button id="spinBtn" class="btn" onclick="startSpin()">SPIN NOW</button>
+            <div id="win-text"></div>
         </div>
-        <p>Bhanu Auto Service, Ratlam</p>
+
+        <div id="step-4" class="hidden">
+            <h2 style="color: #4ade80;">Congratulations!</h2>
+            <div id="final-prize" style="background: #fbbf24; color: #000; padding: 15px; font-size: 24px; font-weight: bold; border-radius: 10px; margin-bottom: 20px;"></div>
+            <div class="img-wrap">
+                <img src="banner.png" onerror="this.src='https://via.placeholder.com/300x500/1e293b/4ade80?text=Bhanu+Auto+Poster'">
+            </div>
+            <p>Bhanu Auto Service, Ratlam</p>
+        </div>
     </div>
-</div>
 
 <script>
-    const rewards = ["5% OFF", "COLDRINK", "10% OFF", "ICECREAM", "20% OFF", "30% OFF"];
+    const prizes = ["5% OFF", "FREE COLD DRINK", "10% OFF", "FREE ICECREAM", "20% OFF", "30% OFF"];
     const colors = ["#0ea5e9", "#6366f1", "#8b5cf6", "#ec4899", "#f43f5e", "#f59e0b"];
     const cvs = document.getElementById("wheelCanvas");
     const ctx = cvs.getContext("2d");
@@ -113,38 +162,15 @@
             ctx.rotate(i * slice + slice/2);
             ctx.fillStyle = "white";
             ctx.font = "bold 14px Arial";
-            ctx.fillText(rewards[i], 60, 5);
+            ctx.fillText(prizes[i], 60, 5);
             ctx.restore();
         }
     }
     draw();
 
-    function nextStep(id) {
-        if(id === 'step2' && (!document.getElementById('nameInput').value || !document.getElementById('mobInput').value)) {
-            alert("Details bhariye!"); return;
+    function goToStep(id) {
+        if(id === 'step-2' && (!document.getElementById('cust-name').value || !document.getElementById('cust-mob').value)) {
+            alert("Please fill name and mobile!"); return;
         }
-        document.querySelectorAll('.card > div').forEach(d => d.classList.add('hidden'));
-        document.getElementById(id).classList.remove('hidden');
-    }
-
-    function doSpin() {
-        const btn = document.getElementById('spinBtn');
-        btn.disabled = true;
-        const deg = Math.floor(Math.random() * 360) + 2160;
-        cvs.style.transition = "transform 4s cubic-bezier(0.1, 0, 0.1, 1)";
-        cvs.style.transform = `rotate(${deg}deg)`;
-
-        setTimeout(() => {
-            const final = deg % 360;
-            const idx = Math.floor(((360 - final + 270) % 360) / 60);
-            const prize = rewards[idx];
-            document.getElementById('win-txt').innerText = "You Won: " + prize;
-            setTimeout(() => {
-                nextStep('step4');
-                document.getElementById('prizeLabel').innerText = prize;
-            }, 1500);
-        }, 4000);
-    }
-</script>
-</body>
-</html>
+        // Hide all divs
+        document.getElementById
