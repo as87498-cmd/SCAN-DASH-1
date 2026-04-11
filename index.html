@@ -3,156 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SCAN-DASH | Shivay & Bhanu</title>
+    <title>SCAN-DASH | SHIVAY & BHANU</title>
     <style>
-        /* FULL ROBUST DESIGN */
+        /* RESET & BASE */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
-            background-color: #020617; /* Dark Background */
-            background-image: radial-gradient(circle, #1e293b, #020617);
+            background-color: #050a18 !important; /* Force Dark Background */
             color: #ffffff;
             font-family: 'Arial', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow: hidden;
         }
 
-        .main-container {
+        /* MAIN CARD - NO TRANSPARENCY */
+        .card {
             width: 90%;
             max-width: 400px;
-            background: #0f172a;
-            border: 2px solid #38bdf8; /* Neon Blue Border */
+            background: #101a32 !important; /* Solid Dark Blue */
+            border: 3px solid #00d2ff;
             border-radius: 20px;
-            padding: 25px;
+            padding: 30px;
             text-align: center;
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
-            position: relative;
-            z-index: 10;
+            box-shadow: 0 0 25px rgba(0, 210, 255, 0.4);
+            display: block; /* Ensure visibility */
         }
 
         .hidden { display: none !important; }
 
-        h2 { color: #38bdf8; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
+        h2 { color: #00d2ff; margin-bottom: 20px; text-transform: uppercase; font-size: 24px; }
 
+        /* INPUTS */
         input {
             width: 100%;
             padding: 15px;
             margin-bottom: 15px;
-            background: #1e293b;
-            border: 1px solid #334155;
-            color: white;
+            background: #050a18;
+            border: 2px solid #1e293b;
+            color: #00d2ff;
             border-radius: 10px;
             font-size: 16px;
-            display: block;
+            outline: none;
         }
 
         .btn {
             width: 100%;
             padding: 15px;
-            background: #38bdf8;
-            color: #0f172a;
+            background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+            color: #000;
             font-weight: bold;
             font-size: 18px;
             border: none;
             border-radius: 10px;
             cursor: pointer;
             text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.3);
         }
 
-        /* IMAGE STYLE */
-        .img-wrap {
+        /* IMAGES */
+        .img-container {
             width: 100%;
             min-height: 250px;
-            background: #1e293b;
+            background: #050a18;
+            border: 1px dashed #00d2ff;
             border-radius: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            overflow: hidden;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px dashed #38bdf8;
-            overflow: hidden;
         }
-        .img-wrap img { width: 100%; height: auto; display: block; }
+        .img-container img { width: 100%; height: auto; display: block; }
 
-        /* WHEEL DESIGN */
-        .wheel-container {
-            position: relative;
-            width: 280px;
-            height: 280px;
-            margin: 20px auto;
+        /* WHEEL */
+        .wheel-box { position: relative; width: 280px; height: 280px; margin: 20px auto; }
+        .arrow {
+            position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+            width: 0; height: 0; border-left: 15px solid transparent;
+            border-right: 15px solid transparent; border-top: 30px solid #ff0000;
+            z-index: 99;
         }
-        .pointer {
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0; height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-top: 30px solid #ef4444; /* Red Arrow */
-            z-index: 100;
-        }
-        #wheelCanvas {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            border: 5px solid #fff;
-        }
-        #win-text { font-size: 20px; color: #fbbf24; margin-top: 15px; font-weight: bold; }
+        canvas { width: 100%; height: 100%; border-radius: 50%; border: 4px solid #fff; background: #fff; }
+        
+        #win-msg { font-size: 22px; color: #ffcc00; margin-top: 15px; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div class="main-container">
-        <div id="step-1">
-            <h2>Customer Login</h2>
-            <input type="text" id="cust-name" placeholder="Enter Your Name">
-            <input type="number" id="cust-mob" placeholder="Mobile Number">
-            <button class="btn" onclick="goToStep('step-2')">Login Now</button>
+    <div class="card">
+        <div id="step1">
+            <h2>User Login</h2>
+            <input type="text" id="username" placeholder="Full Name">
+            <input type="number" id="mobile" placeholder="Mobile Number">
+            <button class="btn" onclick="next('step2')">Login</button>
         </div>
 
-        <div id="step-2" class="hidden">
+        <div id="step2" class="hidden">
             <h2>Shivay Finance</h2>
-            <div class="img-wrap">
-                <img src="poster.png" onerror="this.src='https://via.placeholder.com/300x500/1e293b/38bdf8?text=Shivay+Finance+Poster'">
+            <div class="img-container">
+                <img src="poster.png" alt="Poster" onerror="this.src='https://via.placeholder.com/300x500?text=Shivay+Finance'">
             </div>
-            <button class="btn" onclick="goToStep('step-3')">Spin to Win</button>
+            <button class="btn" onclick="next('step3')">Try Your Luck</button>
         </div>
 
-        <div id="step-3" class="hidden">
-            <h2>Lucky Spin</h2>
-            <div class="wheel-container">
-                <div class="pointer"></div>
-                <canvas id="wheelCanvas" width="300" height="300"></canvas>
+        <div id="step3" class="hidden">
+            <h2>Spin to Win</h2>
+            <div class="wheel-box">
+                <div class="arrow"></div>
+                <canvas id="c" width="300" height="300"></canvas>
             </div>
-            <button id="spinBtn" class="btn" onclick="startSpin()">SPIN NOW</button>
-            <div id="win-text"></div>
+            <button id="sBtn" class="btn" onclick="spin()">SPIN NOW</button>
+            <div id="win-msg"></div>
         </div>
 
-        <div id="step-4" class="hidden">
-            <h2 style="color: #4ade80;">Congratulations!</h2>
-            <div id="final-prize" style="background: #fbbf24; color: #000; padding: 15px; font-size: 24px; font-weight: bold; border-radius: 10px; margin-bottom: 20px;"></div>
-            <div class="img-wrap">
-                <img src="banner.png" onerror="this.src='https://via.placeholder.com/300x500/1e293b/4ade80?text=Bhanu+Auto+Poster'">
+        <div id="step4" class="hidden">
+            <h2 style="color: #00ff00;">CONGRATS!</h2>
+            <div id="prize" style="background: #ffcc00; color: #000; padding: 15px; font-size: 26px; font-weight: bold; border-radius: 10px; margin-bottom: 20px;"></div>
+            <div class="img-container">
+                <img src="banner.png" alt="Banner" onerror="this.src='https://via.placeholder.com/300x500?text=Bhanu+Auto'">
             </div>
             <p>Bhanu Auto Service, Ratlam</p>
         </div>
     </div>
 
 <script>
-    const prizes = ["5% OFF", "FREE COLD DRINK", "10% OFF", "FREE ICECREAM", "20% OFF", "30% OFF"];
-    const colors = ["#0ea5e9", "#6366f1", "#8b5cf6", "#ec4899", "#f43f5e", "#f59e0b"];
-    const cvs = document.getElementById("wheelCanvas");
-    const ctx = cvs.getContext("2d");
+    // Config
+    const list = ["5% OFF", "COLDRINK", "10% OFF", "ICECREAM", "20% OFF", "30% OFF"];
+    const clrs = ["#ff0055", "#00fbff", "#ffcc00", "#10b981", "#8b5cf6", "#f43f5e"];
+    const canv = document.getElementById("c");
+    const ctx = canv.getContext("2d");
 
+    // Start Drawing immediately
     function draw() {
         const slice = (Math.PI * 2) / 6;
         for(let i=0; i<6; i++) {
             ctx.beginPath();
-            ctx.fillStyle = colors[i];
+            ctx.fillStyle = clrs[i];
             ctx.moveTo(150, 150);
             ctx.arc(150, 150, 145, i * slice, (i+1) * slice);
             ctx.fill();
@@ -160,17 +147,52 @@
             ctx.save();
             ctx.translate(150, 150);
             ctx.rotate(i * slice + slice/2);
-            ctx.fillStyle = "white";
+            ctx.fillStyle = "black";
             ctx.font = "bold 14px Arial";
-            ctx.fillText(prizes[i], 60, 5);
+            ctx.fillText(list[i], 60, 5);
             ctx.restore();
         }
     }
     draw();
 
-    function goToStep(id) {
-        if(id === 'step-2' && (!document.getElementById('cust-name').value || !document.getElementById('cust-mob').value)) {
-            alert("Please fill name and mobile!"); return;
+    // Navigation function
+    function next(id) {
+        if(id === 'step2') {
+            const n = document.getElementById('username').value;
+            const m = document.getElementById('mobile').value;
+            if(!n || !m) { alert("Details fill karein!"); return; }
         }
-        // Hide all divs
-        document.getElementById
+        // Hide all
+        document.getElementById('step1').style.display = 'none';
+        document.getElementById('step2').style.display = 'none';
+        document.getElementById('step3').style.display = 'none';
+        document.getElementById('step4').style.display = 'none';
+        
+        // Show next
+        document.getElementById(id).style.display = 'block';
+    }
+
+    // Spin function
+    function spin() {
+        const btn = document.getElementById('sBtn');
+        btn.disabled = true;
+        const deg = Math.floor(Math.random() * 360) + 2160; 
+        canv.style.transition = "transform 4s cubic-bezier(0.1, 0, 0.1, 1)";
+        canv.style.transform = `rotate(${deg}deg)`;
+
+        setTimeout(() => {
+            const f = deg % 360;
+            const idx = Math.floor(((360 - f + 270) % 360) / 60);
+            const win = list[idx];
+            document.getElementById('win-msg').innerText = "Result: " + win;
+            
+            setTimeout(() => {
+                next('step4');
+                document.getElementById('prize').innerText = win;
+            }, 1500);
+        }, 4000);
+    }
+</script>
+
+</body>
+</html>
