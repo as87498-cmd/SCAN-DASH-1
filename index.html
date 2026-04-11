@@ -6,22 +6,27 @@
     <title>SCAN-DASH | SHIVAY & BHANU</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: #050a18; color: #ffffff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .card { width: 90%; max-width: 400px; background: #101a32; border: 3px solid #00d2ff; border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 0 25px rgba(0, 210, 255, 0.4); }
-        h2 { color: #00d2ff; margin-bottom: 20px; text-transform: uppercase; }
+        body { background-color: #050a18; color: #ffffff; font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; }
+        .card { width: 95%; max-width: 400px; background: #101a32; border: 3px solid #00d2ff; border-radius: 20px; padding: 20px; text-align: center; box-shadow: 0 0 25px rgba(0, 210, 255, 0.4); }
+        h2 { color: #00d2ff; margin-bottom: 15px; text-transform: uppercase; font-size: 1.2rem; }
         input { width: 100%; padding: 15px; margin-bottom: 15px; background: #050a18; border: 2px solid #1e293b; color: #00d2ff; border-radius: 10px; font-size: 16px; outline: none; }
-        .btn { width: 100%; padding: 15px; background: linear-gradient(90deg, #00d2ff, #3a7bd5); color: #000; font-weight: bold; font-size: 18px; border: none; border-radius: 10px; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
-        .img-container { width: 100%; min-height: 250px; background: #050a18; border: 1px dashed #00d2ff; border-radius: 10px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-        .img-container img { width: 100%; height: auto; display: block; }
-        .wheel-box { position: relative; width: 260px; height: 260px; margin: 20px auto; }
-        .arrow { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid #ff0000; z-index: 99; }
-        canvas { width: 100%; height: 100%; border-radius: 50%; border: 4px solid #fff; background: #fff; }
+        .btn { width: 100%; padding: 15px; background: linear-gradient(90deg, #00d2ff, #3a7bd5); color: #000; font-weight: bold; font-size: 18px; border: none; border-radius: 10px; cursor: pointer; text-transform: uppercase; }
+        .img-container { width: 100%; height: 200px; background: #050a18; border-radius: 10px; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        .img-container img { width: 100%; height: auto; }
+        
+        /* Game Area */
+        #gameArea { width: 100%; height: 200px; background: #050a18; border: 2px solid #333; position: relative; overflow: hidden; display: none; margin-bottom: 10px; border-radius: 10px; }
+        #mario { width: 30px; height: 30px; background: #ff0055; position: absolute; bottom: 0; left: 50px; border-radius: 5px; box-shadow: 0 0 10px #ff0055; }
+        #obstacle { width: 20px; height: 40px; background: #00fbff; position: absolute; bottom: 0; right: -20px; box-shadow: 0 0 10px #00fbff; }
+        #score { position: absolute; top: 10px; right: 10px; color: #fff; font-weight: bold; }
+        .jump { animation: jump 0.5s linear; }
+        @keyframes jump { 0% { bottom: 0; } 30% { bottom: 80px; } 70% { bottom: 80px; } 100% { bottom: 0; } }
     </style>
 </head>
 <body>
 
     <div class="card">
-        <div id="step1" style="display: block;">
+        <div id="step1">
             <h2>User Login</h2>
             <input type="text" id="uname" placeholder="Full Name">
             <input type="number" id="umob" placeholder="Mobile Number">
@@ -31,80 +36,96 @@
         <div id="step2" style="display: none;">
             <h2>Shivay Finance</h2>
             <div class="img-container">
-                <img src="poster.png" onerror="this.src='https://via.placeholder.com/300x500?text=Shivay+Poster'">
+                <img src="poster.png" onerror="this.src='https://via.placeholder.com/300x200?text=Shivay+Finance+Loans'">
             </div>
-            <button class="btn" onclick="goToStep3()">Try Your Luck</button>
+            <p style="font-size: 0.8rem; margin-bottom: 10px;">Obstacle se bacho aur Reward jito!</p>
+            <button class="btn" onclick="startDashGame()">Start Game</button>
         </div>
 
         <div id="step3" style="display: none;">
-            <h2>Spin to Win</h2>
-            <div class="wheel-box">
-                <div class="arrow"></div>
-                <canvas id="c" width="300" height="300"></canvas>
+            <h2>Jump to Win!</h2>
+            <div id="gameArea" onclick="jump()">
+                <div id="score">Score: 0</div>
+                <div id="mario"></div>
+                <div id="obstacle"></div>
             </div>
-            <button id="sBtn" class="btn" onclick="spinNow()">SPIN NOW</button>
-            <div id="win-msg" style="margin-top:15px; font-weight:bold; color:yellow;"></div>
+            <p style="font-size: 0.7rem; color: #aaa;">Screen par Tap karein Jump karne ke liye</p>
         </div>
 
         <div id="step4" style="display: none;">
             <h2 style="color: #00ff00;">CONGRATS!</h2>
-            <div id="prize" style="background: #ffcc00; color: #000; padding: 15px; font-size: 26px; font-weight: bold; border-radius: 10px; margin-bottom: 20px;"></div>
+            <div id="prize" style="background: #ffcc00; color: #000; padding: 15px; font-size: 24px; font-weight: bold; border-radius: 10px; margin-bottom: 15px;"></div>
             <div class="img-container">
-                <img src="banner.png" onerror="this.src='https://via.placeholder.com/300x500?text=Bhanu+Auto'">
+                <img src="banner.png" onerror="this.src='https://via.placeholder.com/300x200?text=Bhanu+Auto+Service'">
             </div>
-            <p>Bhanu Auto Service, Ratlam</p>
+            <p style="color: #00d2ff; font-weight: bold;">Bhanu Auto Service, Ratlam</p>
+            <button class="btn" style="margin-top:10px;" onclick="location.reload()">Play Again</button>
         </div>
     </div>
 
 <script>
-    const list = ["5% OFF", "COLDRINK", "10% OFF", "ICECREAM", "20% OFF", "30% OFF"];
-    const clrs = ["#ff0055", "#00fbff", "#ffcc00", "#10b981", "#8b5cf6", "#f43f5e"];
-    const canv = document.getElementById("c");
-    const ctx = canv.getContext("2d");
-
-    function draw() {
-        const slice = (Math.PI * 2) / 6;
-        for(let i=0; i<6; i++) {
-            ctx.beginPath(); ctx.fillStyle = clrs[i]; ctx.moveTo(150, 150);
-            ctx.arc(150, 150, 145, i * slice, (i+1) * slice); ctx.fill(); ctx.stroke();
-            ctx.save(); ctx.translate(150, 150); ctx.rotate(i * slice + slice/2);
-            ctx.fillStyle = "black"; ctx.font = "bold 14px Arial"; ctx.fillText(list[i], 60, 5); ctx.restore();
-        }
-    }
-    draw();
+    let score = 0;
+    let gameRunning = false;
+    const mario = document.getElementById("mario");
+    const obstacle = document.getElementById("obstacle");
+    const scoreDisplay = document.getElementById("score");
 
     function goToStep2() {
-        const n = document.getElementById('uname').value;
-        const m = document.getElementById('umob').value;
-        if(n === "" || m === "") { alert("Naam aur Number bhariye!"); return; }
+        if(document.getElementById('uname').value === "" || document.getElementById('umob').value === "") {
+            alert("Details bhariye bhai!"); return;
+        }
         document.getElementById('step1').style.display = 'none';
         document.getElementById('step2').style.display = 'block';
     }
 
-    function goToStep3() {
+    function startDashGame() {
         document.getElementById('step2').style.display = 'none';
         document.getElementById('step3').style.display = 'block';
+        document.getElementById('gameArea').style.display = 'block';
+        gameRunning = true;
+        runGame();
     }
 
-    function spinNow() {
-        const btn = document.getElementById('sBtn');
-        btn.disabled = true;
-        const deg = Math.floor(Math.random() * 360) + 2160; 
-        canv.style.transition = "transform 4s cubic-bezier(0.1, 0, 0.1, 1)";
-        canv.style.transform = "rotate(" + deg + "deg)";
+    function jump() {
+        if(mario.classList != "jump") {
+            mario.classList.add("jump");
+            setTimeout(() => { mario.classList.remove("jump"); }, 500);
+        }
+    }
 
-        setTimeout(function() {
-            const f = deg % 360;
-            const idx = Math.floor(((360 - f + 270) % 360) / 60);
-            const win = list[idx];
-            document.getElementById('win-msg').innerText = "Winner: " + win;
-            
-            setTimeout(function() {
-                document.getElementById('step3').style.display = 'none';
-                document.getElementById('step4').style.display = 'block';
-                document.getElementById('prize').innerText = win;
-            }, 1500);
-        }, 4000);
+    function runGame() {
+        let obstaclePos = 400;
+        let interval = setInterval(() => {
+            if(!gameRunning) { clearInterval(interval); return; }
+
+            obstaclePos -= 5;
+            if(obstaclePos < -20) {
+                obstaclePos = 400;
+                score++;
+                scoreDisplay.innerText = "Score: " + score;
+            }
+            obstacle.style.right = (400 - obstaclePos) + "px";
+
+            // Collision Detection
+            let marioBottom = parseInt(window.getComputedStyle(mario).getPropertyValue("bottom"));
+            let obstacleLeft = parseInt(window.getComputedStyle(obstacle).getPropertyValue("left"));
+
+            if(obstacleLeft < 80 && obstacleLeft > 50 && marioBottom <= 40) {
+                gameRunning = false;
+                showPrize();
+            }
+        }, 20);
+    }
+
+    function showPrize() {
+        const rewards = ["COLDRINK", "5% OFF", "10% OFF", "FREE WASH", "20% OFF", "ICECREAM"];
+        // Score ke hisab se reward
+        let win = rewards[score % rewards.length];
+        if(score > 10) win = "30% SUPER OFF";
+
+        document.getElementById('step3').style.display = 'none';
+        document.getElementById('step4').style.display = 'block';
+        document.getElementById('prize').innerText = win;
     }
 </script>
 </body>
