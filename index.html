@@ -5,68 +5,67 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shivay & Bhanu Rewards</title>
     <style>
-        body { font-family: 'Arial', sans-serif; text-align: center; background: #0f172a; color: white; margin: 0; }
-        .container { padding: 20px; max-width: 500px; margin: auto; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; text-align: center; background: #020617; color: white; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        .container { padding: 20px; width: 90%; max-width: 450px; background: #1e293b; border-radius: 20px; box-shadow: 0 0 30px rgba(0,0,0,0.5); }
         .hidden { display: none; }
-        input { padding: 10px; margin: 10px; width: 80%; border-radius: 5px; border: none; }
-        button { padding: 10px 20px; background: #2563eb; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        input { padding: 12px; margin: 10px 0; width: 90%; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 16px; }
+        button { padding: 12px 25px; background: linear-gradient(45deg, #2563eb, #7c3aed); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 15px; width: 100%; transition: 0.3s; }
+        button:hover { opacity: 0.9; transform: scale(1.02); }
         
-        /* Poster Styles */
-        .poster { width: 100%; border-radius: 15px; box-shadow: 0 0 20px rgba(0,255,255,0.5); margin-bottom: 20px; }
+        .poster-img { width: 100%; border-radius: 12px; border: 2px solid #3b82f6; margin-bottom: 15px; box-shadow: 0 0 15px rgba(59, 130, 246, 0.5); }
         
-        /* Spin Wheel Simple Style */
-        #wheel-container { position: relative; width: 300px; height: 300px; margin: 20px auto; border: 5px solid #fff; border-radius: 50%; overflow: hidden; transition: transform 4s cubic-bezier(0.17, 0.67, 0.83, 0.67); }
-        .segment { position: absolute; width: 100%; height: 100%; clip-path: polygon(50% 50%, 100% 0, 100% 100%); background: orange; transform-origin: 50% 50%; }
-        #pointer { font-size: 30px; margin-top: -10px; color: red; }
+        /* Spin Wheel Style */
+        #wheel-container { position: relative; width: 280px; height: 280px; margin: 20px auto; border: 8px solid #334155; border-radius: 50%; transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1); box-shadow: 0 0 20px #7c3aed; }
+        .pointer { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-size: 40px; color: #f43f5e; z-index: 10; text-shadow: 0 0 10px rgba(0,0,0,0.5); }
+        
+        /* Dummy segments for visual feel */
+        #wheel-container::before { content: ''; position: absolute; width: 100%; height: 100%; border-radius: 50%; background: conic-gradient(#ef4444 0deg 60deg, #3b82f6 60deg 120deg, #10b981 120deg 180deg, #f59e0b 180deg 240deg, #8b5cf6 240deg 300deg, #ec4899 300deg 360deg); }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div id="login-screen">
-        <h2>Welcome</h2>
-        <input type="text" id="name" placeholder="Enter Your Name">
+        <h2 style="color: #3b82f6;">Welcome</h2>
+        <p>Login to win exciting rewards!</p>
+        <input type="text" id="name" placeholder="Full Name">
         <input type="number" id="mob" placeholder="Mobile Number">
-        <br>
-        <button onclick="showPoster()">Login & Start</button>
+        <button onclick="showPoster()">Submit</button>
     </div>
 
     <div id="shivay-screen" class="hidden">
-        <img src="https://via.placeholder.com/400x700?text=Shivay+Finance+Poster" class="poster" alt="Shivay Finance">
-        <button onclick="showWheel()">Spin for Discount!</button>
+        <img src="poster.png" class="poster-img" alt="Shivay Finance">
+        <button onclick="showWheel()">Tap to Spin & Win!</button>
     </div>
 
     <div id="wheel-screen" class="hidden">
-        <div id="pointer">▼</div>
-        <div id="wheel-container">
-            <div style="background: #e74c3c; transform: rotate(0deg);" class="segment"></div>
-            <div style="background: #3498db; transform: rotate(60deg);" class="segment"></div>
-            <div style="background: #2ecc71; transform: rotate(120deg);" class="segment"></div>
-            <div style="background: #f1c40f; transform: rotate(180deg);" class="segment"></div>
-            <div style="background: #9b59b6; transform: rotate(240deg);" class="segment"></div>
-            <div style="background: #e67e22; transform: rotate(300deg);" class="segment"></div>
-        </div>
+        <div class="pointer">▼</div>
+        <div id="wheel-container"></div>
         <button id="spin-btn" onclick="spinWheel()">SPIN NOW</button>
-        <h3 id="reward-text"></h3>
+        <h3 id="reward-text" style="margin-top: 20px; color: #fbbf24;"></h3>
     </div>
 
     <div id="bhanu-screen" class="hidden">
-        <h2 style="color: #00ff00;">Congratulations!</h2>
-        <p id="final-reward"></p>
-        <img src="https://via.placeholder.com/400x700?text=Bhanu+Auto+Poster" class="poster" alt="Bhanu Auto">
-        <p>Show this screen at the counter!</p>
+        <h2 style="color: #10b981;">Winner!</h2>
+        <div style="background: #0f172a; padding: 10px; border-radius: 8px; margin-bottom: 15px; border-left: 5px solid #10b981;">
+            <p id="final-reward" style="font-size: 20px; font-weight: bold; margin: 0;"></p>
+        </div>
+        <img src="banner.png" class="poster-img" alt="Bhanu Auto">
+        <p style="font-size: 14px; color: #94a3b8;">Take a screenshot and show it at Bhanu Auto!</p>
     </div>
 </div>
 
 <script>
-    const rewards = ["5% Discount", "10% Discount", "20% Discount", "30% Discount", "Free Coldrink", "Free Ice Cream"];
+    const rewards = ["5% Discount", "Free Coldrink", "10% Discount", "Free Ice Cream", "20% Discount", "30% Discount"];
 
     function showPoster() {
-        if(document.getElementById('name').value && document.getElementById('mob').value) {
+        const name = document.getElementById('name').value;
+        const mob = document.getElementById('mob').value;
+        if(name && mob) {
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('shivay-screen').classList.remove('hidden');
         } else {
-            alert("Please enter details");
+            alert("Please enter Name and Mobile number.");
         }
     }
 
@@ -77,17 +76,29 @@
 
     function spinWheel() {
         const wheel = document.getElementById('wheel-container');
-        const randomDeg = Math.floor(Math.random() * 360) + 1440; // 4 full spins
+        const btn = document.getElementById('spin-btn');
+        const randomDeg = Math.floor(Math.random() * 360) + 1800; // 5 spins min
+        
+        btn.disabled = true;
+        btn.style.opacity = "0.5";
         wheel.style.transform = `rotate(${randomDeg}deg)`;
         
-        document.getElementById('spin-btn').disabled = true;
-
         setTimeout(() => {
             const actualDeg = randomDeg % 360;
-            const index = Math.floor(actualDeg / 60);
+            // 360/6 segments = 60 deg each
+            const index = Math.floor(((360 - actualDeg) % 360) / 60);
             const reward = rewards[index];
             
-            document.getElementById('reward-text').innerText = "You won: " + reward;
+            document.getElementById('reward-text').innerText = "Result: " + reward;
             
             setTimeout(() => {
-                document.getElementById('wheel-screen
+                document.getElementById('wheel-screen').classList.add('hidden');
+                document.getElementById('bhanu-screen').classList.remove('hidden');
+                document.getElementById('final-reward').innerText = reward;
+            }, 1500);
+        }, 4000);
+    }
+</script>
+
+</body>
+</html>
