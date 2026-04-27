@@ -3,200 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SCAN-DASH | NEON EDITION</title>
+    <title>ScanDash - Billionaire Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background: #020205; 
-            color: #ffffff; 
-            font-family: 'Segoe UI', sans-serif; 
-            display: flex; justify-content: center; align-items: center; 
-            min-height: 100vh; overflow: hidden;
-        }
-
-        /* Masala: Animated Background */
-        body::before {
-            content: ""; position: absolute; width: 200%; height: 200%;
-            background: radial-gradient(circle, #00d2ff1a 0%, #ff00551a 50%, #020205 100%);
-            animation: moveBg 10s linear infinite; z-index: -1;
-        }
-        @keyframes moveBg { from { transform: translate(-25%, -25%); } to { transform: translate(0, 0); } }
-
-        .card { 
-            width: 95%; max-width: 400px; 
-            background: rgba(16, 26, 50, 0.8); 
-            backdrop-filter: blur(15px);
-            border: 2px solid #00d2ff; 
-            border-radius: 25px; padding: 25px; text-align: center; 
-            box-shadow: 0 0 30px rgba(0, 210, 255, 0.3), inset 0 0 15px rgba(0, 210, 255, 0.1);
-        }
-
-        h2 { 
-            color: #00d2ff; margin-bottom: 20px; text-transform: uppercase; 
-            letter-spacing: 2px; text-shadow: 0 0 10px #00d2ff;
-        }
-
-        /* Masala: Glowing Inputs */
-        input { 
-            width: 100%; padding: 15px; margin-bottom: 15px; 
-            background: rgba(5, 10, 24, 0.6); 
-            border: 1px solid #1e293b; color: #00fbff; 
-            border-radius: 12px; font-size: 16px; outline: none;
-            transition: 0.3s;
-        }
-        input:focus { border-color: #00fbff; box-shadow: 0 0 15px rgba(0, 251, 255, 0.4); }
-
-        .btn { 
-            width: 100%; padding: 16px; 
-            background: linear-gradient(45deg, #00d2ff, #3a7bd5); 
-            color: #fff; font-weight: bold; font-size: 18px; 
-            border: none; border-radius: 12px; cursor: pointer; 
-            text-transform: uppercase; transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(0, 210, 255, 0.4);
-        }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0, 210, 255, 0.6); }
-
-        /* Poster Fix: Auto height so it shows full image */
-        .img-container { 
-            width: 100%; margin-bottom: 20px; border-radius: 15px; 
-            overflow: hidden; border: 1px solid rgba(0, 210, 255, 0.3);
-            background: #000;
-        }
-        .img-container img { width: 100%; height: auto; display: block; }
-
-        /* Game Masala */
-        #gameArea { 
-            width: 100%; height: 220px; background: #050a18; 
-            border: 2px solid #333; position: relative; overflow: hidden; 
-            display: none; border-radius: 15px; margin-top: 10px;
-        }
-        #mario { 
-            width: 35px; height: 35px; background: #ff0055; 
-            position: absolute; bottom: 0; left: 40px; border-radius: 8px; 
-            box-shadow: 0 0 15px #ff0055;
-        }
-        #obstacle { 
-            width: 25px; height: 45px; background: #00fbff; 
-            position: absolute; bottom: 0; right: -30px; 
-            box-shadow: 0 0 15px #00fbff; border-radius: 5px;
-        }
-        #score { position: absolute; top: 10px; left: 15px; font-weight: bold; color: #00d2ff; }
-
-        .jump { animation: jump 0.5s ease-out; }
-        @keyframes jump { 0% { bottom: 0; } 50% { bottom: 100px; } 100% { bottom: 0; } }
-
-        #prize { 
-            background: linear-gradient(45deg, #ffcc00, #ff8800); 
-            color: #000; padding: 20px; font-size: 28px; 
-            font-weight: 900; border-radius: 15px; margin-bottom: 20px;
-            animation: pulse 1s infinite;
-        }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        .spin-wheel { transition: transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99); }
+        .hidden-panel { display: none; }
     </style>
 </head>
-<body>
+<body class="bg-gray-100 font-sans">
 
-    <div class="card">
-        <div id="step1">
-            <h2 style="color: #ff0055; text-shadow: 0 0 10px #ff0055;">Access Dash</h2>
-            <input type="text" id="uname" placeholder="Enter Full Name">
-            <input type="number" id="umob" placeholder="WhatsApp Number">
-            <button class="btn" onclick="goToStep2()" style="background: linear-gradient(45deg, #ff0055, #8b5cf6);">Verify Login</button>
-        </div>
-
-        <div id="step2" style="display: none;">
-            <h2>Shivay Finance</h2>
-            <div class="img-container">
-                <img src="poster.png" onerror="this.src='https://via.placeholder.com/400x600/000000/00d2ff?text=Shivay+Finance+Full+Ad'">
-            </div>
-            <button class="btn" onclick="startDashGame()">Play to Win Reward</button>
-        </div>
-
-        <div id="step3" style="display: none;">
-            <h2>Neon Dash</h2>
-            <div id="gameArea" onclick="jump()">
-                <div id="score">Score: 0</div>
-                <div id="mario"></div>
-                <div id="obstacle"></div>
-            </div>
-            <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">Tap to Jump Over Obstacles!</p>
-        </div>
-
-        <div id="step4" style="display: none;">
-            <h2 style="color: #00ff00;">JACKPOT!</h2>
-            <div id="prize"></div>
-            <div class="img-container">
-                <img src="banner.png" onerror="this.src='https://via.placeholder.com/400x500/000000/ffcc00?text=Bhanu+Auto+Service'">
-            </div>
-            <p style="color: #00fbff; font-weight: bold; letter-spacing: 1px;">Bhanu Auto Service, Ratlam</p>
-            <button class="btn" style="margin-top:20px;" onclick="location.reload()">Try Again</button>
+    <div id="login-screen" class="flex items-center justify-center h-screen">
+        <div class="bg-white p-8 rounded-xl shadow-2xl w-96 text-center border-t-4 border-blue-600">
+            <h1 class="text-3xl font-bold mb-6 text-blue-600">ScanDash</h1>
+            <input type="text" id="username" placeholder="User ID" class="w-full p-3 mb-4 border rounded">
+            <input type="password" id="password" placeholder="Password" class="w-full p-3 mb-6 border rounded">
+            <button onclick="handleLogin()" class="w-full bg-blue-600 text-white p-3 rounded-lg font-bold hover:bg-blue-700 transition">Login to Panel</button>
+            <p class="mt-4 text-sm text-gray-500">Demo IDs: 'admin' or 'merchant'</p>
         </div>
     </div>
 
-<script>
-    let score = 0;
-    let gameRunning = false;
-    const mario = document.getElementById("mario");
-    const obstacle = document.getElementById("obstacle");
+    <div id="admin-panel" class="hidden-panel p-6">
+        <header class="flex justify-between items-center mb-8 bg-white p-4 rounded-lg shadow">
+            <h2 class="text-2xl font-bold text-blue-700">ScanDash Super Admin</h2>
+            <button onclick="logout()" class="text-red-500 font-bold">Logout</button>
+        </header>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-blue-100 p-6 rounded-lg border-l-4 border-blue-500">
+                <p class="text-gray-600">Total Merchants</p>
+                <h3 class="text-4xl font-bold">10,000+</h3>
+            </div>
+            <div class="bg-green-100 p-6 rounded-lg border-l-4 border-green-500">
+                <p class="text-gray-600">Total Ad Revenue</p>
+                <h3 class="text-4xl font-bold">₹2 Cr+</h3>
+            </div>
+            <div class="bg-purple-100 p-6 rounded-lg border-l-4 border-purple-500">
+                <p class="text-gray-600">Own Product Sales</p>
+                <h3 class="text-4xl font-bold">₹1 Cr+</h3>
+            </div>
+        </div>
 
-    function goToStep2() {
-        if(document.getElementById('uname').value === "" || document.getElementById('umob').value === "") {
-            alert("Masala tabhi milega jab details bhari jayengi!"); return;
-        }
-        document.getElementById('step1').style.display = 'none';
-        document.getElementById('step2').style.display = 'block';
-    }
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h4 class="text-xl font-bold mb-4">Merchant Management (State/City Wise)</h4>
+            <table class="w-full text-left">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="p-3">Shop Name</th>
+                        <th class="p-3">Location</th>
+                        <th class="p-3">Status</th>
+                        <th class="p-3">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="border-b">
+                        <td class="p-3 font-medium">Egg Planet</td>
+                        <td class="p-3 text-sm">MP / Ratlam / Station Rd</td>
+                        <td class="p-3"><span class="bg-green-200 text-green-800 px-2 py-1 rounded text-xs">Active</span></td>
+                        <td class="p-3 text-blue-500 cursor-pointer">View QR</td>
+                    </tr>
+                    <tr>
+                        <td class="p-3 font-medium">Royal Cafe</td>
+                        <td class="p-3 text-sm">MP / Ratlam / Kothari Mkt</td>
+                        <td class="p-3"><span class="bg-green-200 text-green-800 px-2 py-1 rounded text-xs">Active</span></td>
+                        <td class="p-3 text-blue-500 cursor-pointer">View QR</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-    function startDashGame() {
-        document.getElementById('step2').style.display = 'none';
-        document.getElementById('step3').style.display = 'block';
-        document.getElementById('gameArea').style.display = 'block';
-        gameRunning = true;
-        score = 0;
-        runGame();
-    }
+    <div id="merchant-panel" class="hidden-panel p-6">
+        <header class="flex justify-between items-center mb-8 bg-white p-4 rounded-lg shadow">
+            <h2 class="text-2xl font-bold text-green-700">Egg Planet Dashboard</h2>
+            <button onclick="logout()" class="text-red-500 font-bold">Logout</button>
+        </header>
 
-    function jump() {
-        if(mario.classList != "jump") {
-            mario.classList.add("jump");
-            setTimeout(() => { mario.classList.remove("jump"); }, 500);
-        }
-    }
+        <div class="bg-yellow-50 p-6 rounded-lg border-2 border-yellow-200 mb-8 text-center">
+            <h4 class="font-bold text-yellow-800 mb-2 text-xl">Target for Free Maintenance!</h4>
+            <div class="w-full bg-gray-200 rounded-full h-4 mb-2">
+                <div class="bg-yellow-500 h-4 rounded-full" style="width: 70%"></div>
+            </div>
+            <p>Aapne ₹7,000 ka 'Dash Cola' becha hai. <b>₹3,000 aur bechiye</b> aur agle mahine ki fees <b>FREE</b> payein!</p>
+        </div>
 
-    function runGame() {
-        let obstaclePos = 400;
-        let speed = 6;
-        let interval = setInterval(() => {
-            if(!gameRunning) { clearInterval(interval); return; }
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h4 class="font-bold mb-4">Live Customer Scans</h4>
+                <p class="text-5xl font-extrabold text-green-600">142</p>
+                <p class="text-sm text-gray-500 mt-2">Aaj ke total scans</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h4 class="font-bold mb-4">Active Offer</h4>
+                <p class="text-xl">"Buy 1 Pizza, Get 1 Dash Ice-Cream Free"</p>
+                <button class="mt-4 bg-green-600 text-white px-4 py-2 rounded">Change Offer</button>
+            </div>
+        </div>
+    </div>
 
-            obstaclePos -= speed;
-            if(obstaclePos < -30) {
-                obstaclePos = 400;
-                score++;
-                speed += 0.2; // Game gets harder (masala!)
-                document.getElementById("score").innerText = "Score: " + score;
+    <div id="customer-game" class="hidden-panel flex flex-col items-center justify-center min-h-screen bg-blue-50">
+        <h2 class="text-2xl font-black text-blue-700 mb-8 uppercase tracking-widest">ScanDash Win!</h2>
+        <div class="relative w-72 h-72 border-8 border-white rounded-full shadow-2xl flex items-center justify-center bg-white overflow-hidden">
+            <div id="wheel" class="spin-wheel absolute inset-0 rounded-full flex items-center justify-center border-4 border-gray-200">
+                <img src="https://cdn-icons-png.flaticon.com/512/1041/1041006.png" class="w-full h-full opacity-50" />
+            </div>
+            <div class="z-10 bg-red-600 text-white w-10 h-10 rounded-full border-4 border-white shadow flex items-center justify-center font-bold">!</div>
+        </div>
+        <button id="spin-btn" onclick="spinWheel()" class="mt-10 bg-yellow-500 text-black px-12 py-4 rounded-full font-black text-xl shadow-lg transform hover:scale-110 active:scale-95 transition">SPIN & WIN</button>
+        <div id="reward" class="mt-8 text-2xl font-bold text-green-600 opacity-0 transition-opacity">CONGRATS! FREE ICE-CREAM</div>
+    </div>
+
+    <script>
+        function handleLogin() {
+            const user = document.getElementById('username').value;
+            document.getElementById('login-screen').classList.add('hidden-panel');
+
+            if(user === 'admin') {
+                document.getElementById('admin-panel').classList.remove('hidden-panel');
+            } else if(user === 'merchant') {
+                document.getElementById('merchant-panel').classList.remove('hidden-panel');
+            } else {
+                document.getElementById('customer-game').classList.remove('hidden-panel');
             }
-            obstacle.style.right = (400 - obstaclePos) + "px";
+        }
 
-            let marioBottom = parseInt(window.getComputedStyle(mario).getPropertyValue("bottom"));
-            let obstacleLeft = parseInt(window.getComputedStyle(obstacle).getPropertyValue("left"));
+        function logout() {
+            location.reload();
+        }
 
-            if(obstacleLeft < 75 && obstacleLeft > 40 && marioBottom <= 45) {
-                gameRunning = false;
-                showPrize();
-            }
-        }, 20);
-    }
+        function spinWheel() {
+            const wheel = document.getElementById('wheel');
+            const reward = document.getElementById('reward');
+            const btn = document.getElementById('spin-btn');
+            
+            const randomDeg = Math.floor(3000 + Math.random() * 3000);
+            wheel.style.transform = `rotate(${randomDeg}deg)`;
+            btn.disabled = true;
+            btn.classList.add('opacity-50');
 
-    function showPrize() {
-        const rewards = ["COLDRINK", "5% OFF", "10% OFF", "FREE OIL CHECK", "20% OFF", "ICECREAM", "30% OFF"];
-        let win = rewards[score % rewards.length];
-        if(score >= 10) win = "🔥 MEGA 50% OFF";
-
-        document.getElementById('step3').style.display = 'none';
-        document.getElementById('step4').style.display = 'block';
-        document.getElementById('prize').innerText = win;
-    }
-</script>
+            setTimeout(() => {
+                reward.classList.remove('opacity-0');
+                reward.innerHTML = "🎁 MUBARAK HO! FREE DASH COLA!";
+            }, 4000);
+        }
+    </script>
 </body>
 </html>
