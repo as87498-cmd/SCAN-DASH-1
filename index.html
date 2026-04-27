@@ -3,243 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ScanDash | Billionaire Vision Portal</title>
+    <title>ScanDash | Integrated Ecosystem</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap');
-        
-        body { font-family: 'Outfit', sans-serif; background: #0f172a; overflow-x: hidden; }
-
-        /* Asli Tadka: Animated Background */
-        .animated-bg {
-            background: linear-gradient(-45deg, #1e3a8a, #1e40af, #1e1b4b, #0f172a);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
-        }
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-
-        .input-focus:focus {
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
-            border-color: #3b82f6;
-        }
-
         .hidden { display: none !important; }
-        
-        /* Smooth Fade-in */
-        .fade-in { animation: fadeIn 0.5s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); }
+        body { background: #0f172a; font-family: 'Outfit', sans-serif; color: white; }
+        .spin-anim { transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1); }
     </style>
 </head>
-<body class="animated-bg text-white">
+<body>
 
-    <div id="authSection" class="min-h-screen flex items-center justify-center p-6">
-        <div class="glass-card p-10 rounded-[2.5rem] w-full max-w-lg text-center fade-in">
-            <div class="mb-8">
-                <div class="w-24 h-24 bg-blue-600 rounded-3xl mx-auto flex items-center justify-center shadow-[0_0_40px_rgba(37,99,235,0.6)] animate-pulse">
-                    <i class="fas fa-bolt text-5xl text-white"></i>
-                </div>
-                <h1 class="text-5xl font-extrabold mt-6 tracking-tighter">SCANDASH</h1>
-                <p class="text-blue-300 font-medium tracking-widest uppercase text-sm mt-2">Empire Management</p>
-            </div>
+    <div id="customerPage" class="min-h-screen flex flex-col items-center justify-center p-6">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-black text-blue-500 italic">SCANDASH</h1>
+            <p class="text-gray-400 mt-2">Welcome to <span class="text-white font-bold" id="currentShop">Egg Planet</span></p>
+        </div>
 
-            <div class="flex mb-8 bg-white/10 rounded-2xl p-1">
-                <button onclick="toggleAuth('login')" id="lTab" class="flex-1 py-3 rounded-xl font-bold transition-all bg-blue-600 text-white">Login</button>
-                <button onclick="toggleAuth('register')" id="rTab" class="flex-1 py-3 rounded-xl font-bold transition-all text-gray-400">Register</button>
+        <div class="relative w-80 h-80 flex items-center justify-center">
+            <div id="wheel" class="spin-anim w-full h-full rounded-full border-8 border-white/10 shadow-[0_0_50px_rgba(59,130,246,0.3)] bg-slate-800 flex items-center justify-center">
+                <div class="absolute w-1 h-full bg-white/20"></div>
+                <div class="absolute w-full h-1 bg-white/20"></div>
+                <span class="text-xs font-bold text-gray-500 uppercase">Spin to Win</span>
             </div>
+            <div class="absolute -top-4 text-3xl text-yellow-400">▼</div>
+        </div>
 
-            <div id="loginForm" class="space-y-5">
-                <div class="relative">
-                    <i class="fas fa-user absolute left-4 top-4 text-gray-400"></i>
-                    <input type="text" id="lUser" placeholder="Admin/Merchant ID" class="w-full bg-white/10 py-4 pl-12 pr-4 rounded-2xl outline-none input-focus border border-transparent transition-all">
-                </div>
-                <div class="relative">
-                    <i class="fas fa-lock absolute left-4 top-4 text-gray-400"></i>
-                    <input type="password" id="lPass" placeholder="Password" class="w-full bg-white/10 py-4 pl-12 pr-4 rounded-2xl outline-none input-focus border border-transparent transition-all">
-                </div>
-                <button onclick="doLogin()" class="w-full bg-blue-600 hover:bg-blue-700 py-4 rounded-2xl font-black text-xl shadow-lg shadow-blue-500/30 transition-all transform active:scale-95">ENTER THE EMPIRE</button>
-            </div>
+        <button onclick="playGame()" id="spinBtn" class="mt-12 bg-blue-600 px-12 py-4 rounded-2xl font-black text-xl shadow-xl shadow-blue-600/30">SPIN & WIN</button>
+        
+        <button onclick="goToAuth()" class="mt-20 text-gray-500 text-sm border-b border-gray-700">Go to Admin/Merchant Login</button>
+    </div>
 
-            <div id="registerForm" class="hidden space-y-5">
-                <select id="rRole" class="w-full bg-white/10 py-4 px-4 rounded-2xl outline-none border border-transparent appearance-none">
-                    <option value="admin">Main Admin (Master)</option>
-                    <option value="merchant">Merchant (Partner)</option>
-                </select>
-                <input type="text" id="rUser" placeholder="Set Username" class="w-full bg-white/10 py-4 px-4 rounded-2xl outline-none">
-                <input type="password" id="rPass" placeholder="Set Password" class="w-full bg-white/10 py-4 px-4 rounded-2xl outline-none">
-                <input type="text" id="rShop" placeholder="Shop Name (Only for Merchant)" class="w-full bg-white/10 py-4 px-4 rounded-2xl outline-none">
-                <button onclick="doRegister()" class="w-full bg-green-600 py-4 rounded-2xl font-black text-xl shadow-lg transition-all">START JOURNEY</button>
-            </div>
+    <div id="authSection" class="hidden min-h-screen flex items-center justify-center p-6 bg-slate-900">
+        <div class="glass p-10 rounded-[2.5rem] w-full max-w-md text-center">
+            <h2 class="text-3xl font-black mb-8">Portal Login</h2>
+            <input type="text" id="u" placeholder="ID" class="w-full bg-white/5 p-4 rounded-xl mb-4 border border-white/10">
+            <input type="password" id="p" placeholder="Password" class="w-full bg-white/5 p-4 rounded-xl mb-6 border border-white/10">
+            <button onclick="login()" class="w-full bg-blue-600 py-4 rounded-xl font-bold">ENTER DASHBOARD</button>
         </div>
     </div>
 
-    <div id="adminDash" class="hidden min-h-screen flex flex-col md:flex-row">
-        <div class="w-full md:w-80 bg-black/40 backdrop-blur-xl p-8 border-r border-white/10">
-            <h2 class="text-3xl font-black mb-12 text-blue-500 italic">SD.ADMIN</h2>
-            <nav class="space-y-6">
-                <div class="flex items-center text-blue-400 font-bold text-lg"><i class="fas fa-columns mr-4"></i> Overview</div>
-                <div class="flex items-center text-gray-400 hover:text-white cursor-pointer"><i class="fas fa-store mr-4"></i> Merchants</div>
-                <div class="flex items-center text-gray-400 hover:text-white cursor-pointer"><i class="fas fa-file-invoice-dollar mr-4"></i> Revenue</div>
-                <div class="flex items-center text-gray-400 hover:text-white cursor-pointer"><i class="fas fa-table mr-4"></i> Google Sheet</div>
-            </nav>
-            <div class="mt-40">
-                <button onclick="location.reload()" class="bg-red-500/20 text-red-500 w-full py-4 rounded-2xl font-bold border border-red-500/20">LOGOUT</button>
-            </div>
-        </div>
-
-        <div class="flex-1 p-8 md:p-12 overflow-y-auto">
-            <div class="flex justify-between items-center mb-12">
-                <div>
-                    <h1 class="text-4xl font-black uppercase">Master Dashboard</h1>
-                    <p class="text-gray-400">Live Status of 10,000+ Outlets</p>
-                </div>
-                <button onclick="openModal()" class="bg-blue-600 hover:bg-blue-700 px-8 py-4 rounded-2xl font-black shadow-xl shadow-blue-600/20"><i class="fas fa-plus mr-3"></i> ADD MERCHANT</button>
+    <div id="merchantDash" class="hidden min-h-screen p-6 bg-slate-50 text-slate-900">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-black">Shop Dashboard</h2>
+                <button onclick="location.reload()" class="text-red-500 font-bold">Logout</button>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                <div class="glass-card p-8 rounded-[2rem] border-l-8 border-blue-500 relative overflow-hidden">
-                    <p class="text-gray-400 font-bold text-xs uppercase tracking-widest">Total Ads Income</p>
-                    <h3 class="text-4xl font-black mt-2">₹2.45 CR</h3>
-                    <i class="fas fa-ad absolute -right-4 -bottom-4 text-7xl opacity-5"></i>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white p-8 rounded-3xl shadow-sm border-b-8 border-blue-600 text-center">
+                    <p class="text-gray-400 font-bold uppercase text-xs">Total Scans Today</p>
+                    <h3 class="text-6xl font-black mt-2 text-blue-600" id="scanCount">0</h3>
                 </div>
-                <div class="glass-card p-8 rounded-[2rem] border-l-8 border-green-500 relative overflow-hidden">
-                    <p class="text-gray-400 font-bold text-xs uppercase tracking-widest">Dash Product Sales</p>
-                    <h3 class="text-4xl font-black mt-2">₹1.12 CR</h3>
-                    <i class="fas fa-bottle-water absolute -right-4 -bottom-4 text-7xl opacity-5"></i>
-                </div>
-                <div class="glass-card p-8 rounded-[2rem] border-l-8 border-orange-500 relative overflow-hidden">
-                    <p class="text-gray-400 font-bold text-xs uppercase tracking-widest">Sheet Sync</p>
-                    <h3 class="text-2xl font-black mt-2 text-green-400 italic">LIVE SYNCED</h3>
-                    <i class="fas fa-file-excel absolute -right-4 -bottom-4 text-7xl opacity-5"></i>
+                <div class="bg-slate-900 p-8 rounded-3xl shadow-xl text-white">
+                    <h3 class="text-yellow-400 font-bold mb-4 uppercase">Waiver Status</h3>
+                    <div class="w-full bg-slate-700 h-4 rounded-full mb-2">
+                        <div class="bg-yellow-500 h-4 rounded-full" id="progressBar" style="width: 0%"></div>
+                    </div>
+                    <p class="text-sm">Target: ₹10,000 | <span id="progressText">0% Complete</span></p>
                 </div>
             </div>
-
-            <div class="glass-card p-10 rounded-[2.5rem]">
-                <div class="flex justify-between items-center mb-8">
-                    <h3 class="text-2xl font-bold">Recent Merchants (Ratlam/Other)</h3>
-                    <button onclick="syncGoogleSheet()" class="text-sm bg-green-600/20 text-green-500 px-4 py-2 rounded-xl font-bold border border-green-500/20">FORCE GOOGLE SHEET SYNC</button>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left">
-                        <thead class="text-gray-500 text-sm uppercase tracking-tighter">
-                            <tr>
-                                <th class="pb-6">Shop Name</th>
-                                <th class="pb-6">City</th>
-                                <th class="pb-6">Revenue Contribution</th>
-                                <th class="pb-6">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="merchantTable" class="text-lg font-medium">
-                            <tr class="border-b border-white/5">
-                                <td class="py-6">Egg Planet</td>
-                                <td class="text-gray-400">Ratlam, MP</td>
-                                <td class="text-green-400 font-bold">₹1.2 Lakhs</td>
-                                <td><i class="fas fa-download cursor-pointer hover:text-blue-500"></i></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="mModal" class="hidden fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center p-6 z-50">
-        <div class="glass-card p-10 rounded-[2.5rem] w-full max-w-md">
-            <h3 class="text-3xl font-black mb-8">New Partner Registration</h3>
-            <div class="space-y-5">
-                <input type="text" id="mName" placeholder="Shop/Firm Name" class="w-full bg-white/10 py-4 px-6 rounded-2xl outline-none border border-white/10">
-                <input type="text" id="mCity" placeholder="City (e.g. Ratlam)" class="w-full bg-white/10 py-4 px-6 rounded-2xl outline-none border border-white/10">
-                <input type="text" id="mState" placeholder="State" class="w-full bg-white/10 py-4 px-6 rounded-2xl outline-none border border-white/10">
-                <div class="flex gap-4 mt-8">
-                    <button onclick="closeModal()" class="flex-1 py-4 font-bold text-gray-400">CANCEL</button>
-                    <button onclick="addMerchantReal()" class="flex-1 bg-blue-600 py-4 rounded-2xl font-black shadow-lg">ADD NOW</button>
+            
+            <div class="bg-white p-6 rounded-3xl shadow-sm">
+                <h4 class="font-bold mb-4">Last Customer Rewards</h4>
+                <div id="rewardList" class="space-y-3">
+                    <p class="text-gray-400 italic">Waiting for scans...</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Real Mock DB
-        let users = [{ u: 'admin', p: 'admin123', r: 'admin' }];
-        let merchants = [{ n: 'Egg Planet', c: 'Ratlam', s: 'MP', r: '1.2 Lakhs' }];
+        // Global State (In real app, this is in a Database)
+        let totalScans = 0;
+        let shopName = "Egg Planet";
 
-        function toggleAuth(type) {
-            const lTab = document.getElementById('lTab');
-            const rTab = document.getElementById('rTab');
-            const lForm = document.getElementById('loginForm');
-            const rForm = document.getElementById('registerForm');
+        // Customer Logic
+        function playGame() {
+            const wheel = document.getElementById('wheel');
+            const btn = document.getElementById('spinBtn');
+            const deg = Math.floor(2000 + Math.random() * 2000);
+            
+            wheel.style.transform = `rotate(${deg}deg)`;
+            btn.disabled = true;
+            btn.innerHTML = "Spinning...";
 
-            if(type === 'login') {
-                lForm.classList.remove('hidden'); rForm.classList.add('hidden');
-                lTab.classList.add('bg-blue-600', 'text-white'); lTab.classList.remove('text-gray-400');
-                rTab.classList.remove('bg-blue-600', 'text-white'); rTab.classList.add('text-gray-400');
-            } else {
-                lForm.classList.add('hidden'); rForm.classList.remove('hidden');
-                rTab.classList.add('bg-blue-600', 'text-white'); rTab.classList.remove('text-gray-400');
-                lTab.classList.remove('bg-blue-600', 'text-white'); lTab.classList.add('text-gray-400');
-            }
+            setTimeout(() => {
+                totalScans++; // Increment scan count
+                alert("CONGRATS! You won a FREE DASH COLA at " + shopName);
+                btn.innerHTML = "Check Reward at Counter";
+                btn.classList.replace('bg-blue-600', 'bg-green-600');
+            }, 4000);
         }
 
-        function doRegister() {
-            const u = document.getElementById('rUser').value;
-            const p = document.getElementById('rPass').value;
-            const r = document.getElementById('rRole').value;
-            if(u && p) {
-                users.push({u, p, r});
-                alert("Account Created! Login kijiye.");
-                toggleAuth('login');
-            }
+        // Navigation & Auth
+        function goToAuth() {
+            document.getElementById('customerPage').classList.add('hidden');
+            document.getElementById('authSection').classList.remove('hidden');
         }
 
-        function doLogin() {
-            const u = document.getElementById('lUser').value;
-            const p = document.getElementById('lPass').value;
-            const user = users.find(x => x.u === u && x.p === p);
-            if(user) {
+        function login() {
+            const user = document.getElementById('u').value;
+            if(user === 'merchant' || user === 'admin') {
                 document.getElementById('authSection').classList.add('hidden');
-                document.getElementById('adminDash').classList.remove('hidden');
-                document.body.classList.remove('animated-bg');
-                document.body.style.backgroundColor = '#0f172a';
-            } else { alert("Access Denied! ID/Password check karo."); }
-        }
-
-        function openModal() { document.getElementById('mModal').classList.remove('hidden'); }
-        function closeModal() { document.getElementById('mModal').classList.add('hidden'); }
-
-        function addMerchantReal() {
-            const n = document.getElementById('mName').value;
-            const c = document.getElementById('mCity').value;
-            const s = document.getElementById('mState').value;
-            if(n && c) {
-                merchants.push({ n, c, s, r: '0.00 (New)' });
-                renderTable();
-                alert(`${n} add ho gaya! Google Sheets update kar di gayi hai.`);
-                closeModal();
+                document.getElementById('merchantDash').classList.remove('hidden');
+                updateMerchantDash();
+            } else {
+                alert("Please use 'merchant' as ID");
             }
         }
 
-        function renderTable() {
-            const tb = document.getElementById('merchantTable');
-            tb.innerHTML = '';
-            merchants.forEach(m => {
-                tb.innerHTML += `<tr class="border-b border-white/5"><td class="py-6">${m.n}</td><td class="text-gray-400">${m.c}, ${m.s}</td><td class="text-green-400 font-bold">₹${m.r}</td><td><i class="fas fa-download cursor-pointer hover:text-blue-500"></i></td></tr>`;
-            });
-        }
-
-        function syncGoogleSheet() {
-            alert("Connecting to Google Sheets API... Data successfully synced with Master Spreadsheet!");
+        // Update Merchant Dash with Customer Data
+        function updateMerchantDash() {
+            document.getElementById('scanCount').innerText = totalScans;
+            const progress = (totalScans * 5) % 100; // Fake progress for demo
+            document.getElementById('progressBar').style.width = progress + "%";
+            document.getElementById('progressText').innerText = progress + "% Complete";
+            
+            if(totalScans > 0) {
+                const list = document.getElementById('rewardList');
+                list.innerHTML = `<div class="flex justify-between p-3 bg-blue-50 rounded-xl font-bold"><span>Customer #${totalScans}</span><span class="text-green-600">Free Dash Cola</span></div>` + list.innerHTML;
+            }
         }
     </script>
 </body>
