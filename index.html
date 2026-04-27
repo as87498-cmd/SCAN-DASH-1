@@ -16,5 +16,138 @@
 </head>
 <body>
 
-    <div id="loginPage" class="min-h-screen flex items
-        
+    <div id="loginPage" class="min-h-screen flex items-center justify-center gradient-bg p-4">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-md transform transition-all hover:scale-105">
+            <div class="text-center mb-8">
+                <div class="bg-blue-600 w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                    <i class="fas fa-qrcode text-white text-3xl"></i>
+                </div>
+                <h1 class="text-3xl font-extrabold text-gray-800">ScanDash</h1>
+                <p class="text-gray-500">Business Management Portal</p>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700">Username</label>
+                    <input type="text" id="userInput" placeholder="Admin ya Merchant ID" class="w-full mt-1 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700">Password</label>
+                    <input type="password" id="passInput" placeholder="••••••••" class="w-full mt-1 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none">
+                </div>
+                <button onclick="checkLogin()" class="w-full gradient-bg text-white font-bold py-3 rounded-xl shadow-lg hover:opacity-90 transition">Login Now</button>
+            </div>
+            <p class="text-center mt-6 text-xs text-gray-400">Demo IDs: 'admin' or 'merchant'</p>
+        </div>
+    </div>
+
+    <div id="adminPanel" class="hidden min-h-screen flex">
+        <div class="w-64 bg-white shadow-xl hidden md:block">
+            <div class="p-6 text-2xl font-bold text-blue-600 border-b">ScanDash Admin</div>
+            <nav class="mt-6">
+                <a href="#" class="sidebar-item flex items-center px-6 py-4 text-blue-600 border-l-4 border-blue-600 font-bold"><i class="fas fa-chart-line mr-3"></i> Overall Stats</a>
+                <a href="#" class="sidebar-item flex items-center px-6 py-4 text-gray-500"><i class="fas fa-store mr-3"></i> Merchants (10k+)</a>
+                <a href="#" class="sidebar-item flex items-center px-6 py-4 text-gray-500"><i class="fas fa-ad mr-3"></i> Ad Management</a>
+                <a href="#" class="sidebar-item flex items-center px-6 py-4 text-gray-500"><i class="fas fa-box mr-3"></i> Own Products</a>
+                <div class="mt-auto p-6"><button onclick="location.reload()" class="text-red-500 font-bold"><i class="fas fa-sign-out-alt mr-2"></i> Logout</button></div>
+            </nav>
+        </div>
+
+        <div class="flex-1 p-6 md:p-10 overflow-y-auto">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-800">Market Overview</h2>
+                <div class="bg-blue-100 text-blue-700 px-4 py-2 rounded-full font-bold">Ratlam, MP Hub</div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+                <div class="bg-white p-6 rounded-2xl shadow-md border-b-4 border-blue-600">
+                    <p class="text-gray-400 font-semibold">Total Ad Revenue</p>
+                    <h3 class="text-3xl font-bold text-gray-800">₹2,10,45,000</h3>
+                    <p class="text-green-500 text-sm mt-2"><i class="fas fa-arrow-up"></i> 12% vs last month</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-md border-b-4 border-green-600">
+                    <p class="text-gray-400 font-semibold">Product Sales (Dash Cola)</p>
+                    <h3 class="text-3xl font-bold text-gray-800">₹1,05,20,000</h3>
+                    <p class="text-green-500 text-sm mt-2"><i class="fas fa-arrow-up"></i> 25% Growth</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-md border-b-4 border-purple-600">
+                    <p class="text-gray-400 font-semibold">Active Merchants</p>
+                    <h3 class="text-3xl font-bold text-gray-800">10,240</h3>
+                    <p class="text-blue-500 text-sm mt-2">Target: 20,000</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-md p-6">
+                <h4 class="text-xl font-bold mb-4">New Onboarding List</h4>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="text-gray-400 border-b">
+                                <th class="pb-4">Merchant Name</th>
+                                <th class="pb-4">Location</th>
+                                <th class="pb-4">Daily Scans</th>
+                                <th class="pb-4">Product Sales</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-700">
+                            <tr class="border-b"><td class="py-4 font-bold">Egg Planet</td><td>Ratlam, MP</td><td>450</td><td class="text-green-600 font-bold">₹12,500</td></tr>
+                            <tr class="border-b"><td class="py-4 font-bold">Royal Cafe</td><td>Ujjain, MP</td><td>320</td><td class="text-green-600 font-bold">₹8,400</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="merchantPanel" class="hidden min-h-screen bg-gray-50 p-6">
+        <div class="max-w-4xl mx-auto">
+            <header class="flex justify-between items-center mb-8 bg-white p-6 rounded-2xl shadow-sm">
+                <div>
+                    <h2 class="text-2xl font-bold">Egg Planet <span class="text-sm font-normal text-gray-400">#SD-RAT-001</span></h2>
+                    <p class="text-green-500 font-bold text-sm">Shop Status: Active</p>
+                </div>
+                <button onclick="location.reload()" class="bg-gray-100 p-3 rounded-xl"><i class="fas fa-power-off text-red-500"></i></button>
+            </header>
+
+            <div class="bg-gradient-to-r from-yellow-400 to-orange-500 p-8 rounded-3xl shadow-lg text-white mb-8 relative overflow-hidden">
+                <div class="relative z-10">
+                    <h3 class="text-xl font-bold mb-2 uppercase">Subscription Free Target</h3>
+                    <p class="mb-4 opacity-90">Bhaiya, ₹3,200 ki sales aur kijiye aur agle mahine ki ₹1000 fees maaf!</p>
+                    <div class="w-full bg-white/30 rounded-full h-4 mb-2">
+                        <div class="bg-white h-4 rounded-full" style="width: 68%"></div>
+                    </div>
+                    <p class="text-right font-bold">68% Complete</p>
+                </div>
+                <i class="fas fa-crown absolute -right-4 -bottom-4 text-9xl opacity-20"></i>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-md">
+                    <h4 class="text-gray-400 font-bold mb-2">Live QR Scans (Today)</h4>
+                    <p class="text-5xl font-black text-blue-600">142</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-md">
+                    <h4 class="text-gray-400 font-bold mb-2">Total Winners</h4>
+                    <p class="text-5xl font-black text-orange-500">58</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function checkLogin() {
+            const user = document.getElementById('userInput').value.toLowerCase();
+            const pass = document.getElementById('passInput').value;
+
+            if(user === 'admin') {
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('adminPanel').classList.remove('hidden');
+            } else if(user === 'merchant') {
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('merchantPanel').classList.remove('hidden');
+            } else {
+                alert("Galat ID ya Password! Use 'admin' or 'merchant'");
+            }
+        }
+    </script>
+</body>
+</html>
