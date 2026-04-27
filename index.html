@@ -3,165 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ScanDash | Real Business Portal</title>
+    <title>ScanDash | Professional Enterprise Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        .gradient-custom {
-            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
+        .gradient-pro { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); }
         .hidden { display: none !important; }
+        .tab-active { border-bottom: 3px solid #2563eb; color: #2563eb; }
     </style>
 </head>
-<body class="bg-gray-100 font-sans leading-normal tracking-normal">
+<body class="bg-slate-50">
 
-    <div id="loginSection" class="min-h-screen gradient-custom flex items-center justify-center p-4">
-        <div class="glass-card p-10 rounded-3xl shadow-2xl w-full max-w-md">
-            <div class="text-center mb-10">
-                <div class="inline-flex items-center justify-center w-20 h-20 bg-blue-600 rounded-3xl mb-4 shadow-lg shadow-blue-500/50">
-                    <i class="fas fa-bolt text-white text-4xl"></i>
-                </div>
-                <h1 class="text-4xl font-black text-gray-900 tracking-tighter">ScanDash</h1>
-                <p class="text-gray-500 mt-2 font-medium">Billionaire Admin Control</p>
+    <div id="authSection" class="min-h-screen flex items-center justify-center p-4 gradient-pro">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden">
+            <div class="flex border-b">
+                <button onclick="toggleAuth('login')" id="loginTab" class="flex-1 py-4 font-bold tab-active uppercase">Login</button>
+                <button onclick="toggleAuth('register')" id="registerTab" class="flex-1 py-4 font-bold text-gray-400 uppercase">Register</button>
             </div>
 
-            <div class="space-y-5">
-                <div>
-                    <input type="text" id="user" placeholder="User ID" class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all">
-                </div>
-                <div>
-                    <input type="password" id="pass" placeholder="Password" class="w-full px-5 py-4 bg-gray-50 border border-gray-200 rounded-2xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all">
-                </div>
-                <button onclick="loginProcess()" class="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl shadow-xl shadow-blue-600/30 transition-all transform active:scale-95">
-                    LOGIN NOW
-                </button>
-            </div>
-            
-            <div class="mt-8 flex gap-2">
-                <button onclick="quickLogin('admin')" class="flex-1 py-2 text-xs font-bold bg-gray-200 rounded-lg">DEMO ADMIN</button>
-                <button onclick="quickLogin('merchant')" class="flex-1 py-2 text-xs font-bold bg-gray-200 rounded-lg">DEMO SHOP</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="adminDash" class="hidden min-h-screen flex flex-col md:flex-row">
-        <div class="w-full md:w-64 bg-slate-900 text-white p-6">
-            <div class="text-2xl font-black mb-10 flex items-center">
-                <i class="fas fa-shield-alt mr-3 text-blue-400"></i> ScanDash
-            </div>
-            <nav class="space-y-4">
-                <div class="p-3 bg-blue-600 rounded-xl font-bold"><i class="fas fa-th-large mr-3"></i> Dashboard</div>
-                <div class="p-3 text-gray-400 hover:bg-slate-800 rounded-xl"><i class="fas fa-users mr-3"></i> Merchants</div>
-                <div class="p-3 text-gray-400 hover:bg-slate-800 rounded-xl"><i class="fas fa-chart-pie mr-3"></i> Ad Revenue</div>
-                <div class="p-3 text-gray-400 hover:bg-slate-800 rounded-xl"><i class="fas fa-box mr-3"></i> Dash Products</div>
-            </nav>
-            <button onclick="location.reload()" class="mt-20 text-red-400 font-bold p-3"><i class="fas fa-power-off mr-2"></i> Logout</button>
-        </div>
-
-        <div class="flex-1 p-8 overflow-y-auto">
-            <div class="flex justify-between items-center mb-10">
-                <h2 class="text-3xl font-extrabold text-gray-800">Master Control</h2>
-                <div class="text-right">
-                    <p class="text-sm text-gray-500 font-bold">WELCOME BACK</p>
-                    <p class="text-blue-600 font-black italic">Mr. Lucky Panchal</p>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
-                <div class="bg-white p-8 rounded-3xl shadow-sm border-t-8 border-blue-600">
-                    <p class="text-gray-400 font-bold">TOTAL AD INCOME</p>
-                    <h3 class="text-4xl font-black text-slate-800 mt-2">₹2.40 Cr</h3>
-                    <div class="mt-4 text-green-500 font-bold text-sm">↑ 18% Increase</div>
-                </div>
-                <div class="bg-white p-8 rounded-3xl shadow-sm border-t-8 border-indigo-600">
-                    <p class="text-gray-400 font-bold">DASH COLA SALES</p>
-                    <h3 class="text-4xl font-black text-slate-800 mt-2">₹1.15 Cr</h3>
-                    <div class="mt-4 text-green-500 font-bold text-sm">↑ 22% Increase</div>
-                </div>
-                <div class="bg-white p-8 rounded-3xl shadow-sm border-t-8 border-green-600">
-                    <p class="text-gray-400 font-bold">OUTLETS LIVE</p>
-                    <h3 class="text-4xl font-black text-slate-800 mt-2">10,240</h3>
-                    <div class="mt-4 text-blue-500 font-bold text-sm">Target: 20k</div>
-                </div>
-            </div>
-
-            <div class="bg-white p-8 rounded-3xl shadow-sm">
-                <h3 class="text-xl font-bold mb-6">Top Performing Markets</h3>
-                <div class="space-y-4">
-                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl">
-                        <span class="font-bold">Ratlam (Station Rd)</span>
-                        <span class="bg-blue-100 text-blue-600 px-4 py-1 rounded-full font-bold">4,500 Scans</span>
+            <div class="p-8">
+                <div id="authContent">
+                    <div id="loginForm" class="space-y-4">
+                        <h2 class="text-2xl font-black text-slate-800 mb-6">Welcome Back!</h2>
+                        <input type="text" id="lUser" placeholder="Username" class="w-full p-4 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none">
+                        <input type="password" id="lPass" placeholder="Password" class="w-full p-4 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none">
+                        <button onclick="handleLogin()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-blue-700 transition">LOGIN TO DASHBOARD</button>
                     </div>
-                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl">
-                        <span class="font-bold">Indore (Vijay Nagar)</span>
-                        <span class="bg-blue-100 text-blue-600 px-4 py-1 rounded-full font-bold">12,200 Scans</span>
+
+                    <div id="registerForm" class="hidden space-y-4">
+                        <h2 class="text-2xl font-black text-slate-800 mb-6">Create Account</h2>
+                        <select id="rRole" class="w-full p-4 border border-slate-200 rounded-xl bg-white">
+                            <option value="admin">Main Admin (ScanDash Owner)</option>
+                            <option value="merchant">Merchant (Shop Owner)</option>
+                        </select>
+                        <input type="text" id="rUser" placeholder="Set Username" class="w-full p-4 border border-slate-200 rounded-xl">
+                        <input type="password" id="rPass" placeholder="Set Password" class="w-full p-4 border border-slate-200 rounded-xl">
+                        <input type="text" id="rShop" placeholder="Shop/Firm Name (Only for Merchant)" class="w-full p-4 border border-slate-200 rounded-xl">
+                        <button onclick="handleRegister()" class="w-full bg-green-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-green-700 transition">REGISTER NOW</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="merchantDash" class="hidden min-h-screen bg-slate-50 p-6 flex flex-col items-center">
-        <div class="w-full max-w-2xl">
-            <div class="bg-white p-6 rounded-3xl shadow-sm flex justify-between items-center mb-8">
-                <h2 class="text-2xl font-black text-blue-600">Egg Planet</h2>
-                <button onclick="location.reload()" class="bg-red-50 text-red-500 p-3 rounded-2xl"><i class="fas fa-sign-out-alt"></i></button>
+    <div id="adminDash" class="hidden min-h-screen">
+        <nav class="bg-white border-b p-4 flex justify-between items-center shadow-sm">
+            <h1 class="text-xl font-black text-blue-600 italic">SCANDASH MASTER</h1>
+            <button onclick="location.reload()" class="bg-red-50 text-red-500 px-4 py-2 rounded-lg font-bold">Logout</button>
+        </nav>
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-blue-600">
+                    <p class="text-slate-400 font-bold text-xs uppercase">Total Revenue (Ads + Product)</p>
+                    <h3 class="text-3xl font-black text-slate-800 mt-1">₹3.45 Cr</h3>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-green-600">
+                    <p class="text-slate-400 font-bold text-xs uppercase">Live Merchants</p>
+                    <h3 class="text-3xl font-black text-slate-800 mt-1">10,240</h3>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-orange-600">
+                    <p class="text-slate-400 font-bold text-xs uppercase">Pending Requests</p>
+                    <h3 class="text-3xl font-black text-slate-800 mt-1">45</h3>
+                </div>
             </div>
-
-            <div class="bg-slate-900 p-8 rounded-[40px] text-white shadow-2xl mb-8 border-b-8 border-yellow-500">
-                <h3 class="text-yellow-400 font-black text-lg uppercase mb-2">FEES WAIVER STATUS</h3>
-                <p class="text-gray-400 mb-6">Bhaiya, ₹3,200 ki aur Dash Cola bechiye aur agle mahine ki ₹1000 fees FREE karaiye!</p>
-                <div class="h-6 bg-gray-700 rounded-full overflow-hidden mb-4">
-                    <div class="h-full bg-yellow-500 w-[68%] shadow-[0_0_20px_#eab308]"></div>
-                </div>
-                <div class="flex justify-between font-black text-sm uppercase">
-                    <span>Target: ₹10,000</span>
-                    <span class="text-yellow-400">Achieved: ₹6,800</span>
+            <div class="bg-white p-6 rounded-2xl shadow-sm">
+                <h4 class="font-bold mb-4">State-wise Market Performance</h4>
+                <div class="space-y-3">
+                    <div class="flex justify-between p-3 bg-slate-50 rounded-xl"><span>Madhya Pradesh (Ratlam/Indore)</span><b>8,400 Outlets</b></div>
+                    <div class="flex justify-between p-3 bg-slate-50 rounded-xl"><span>Rajasthan (Jaipur/Udaipur)</span><b>1,840 Outlets</b></div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="grid grid-cols-2 gap-6">
-                <div class="bg-white p-8 rounded-3xl shadow-sm text-center">
-                    <p class="text-gray-400 font-bold mb-2">TODAY'S SCANS</p>
-                    <p class="text-5xl font-black text-slate-800">142</p>
+    <div id="merchantDash" class="hidden min-h-screen bg-slate-50">
+        <header class="bg-white p-6 flex justify-between items-center shadow-sm">
+            <h1 id="dispShopName" class="text-xl font-bold text-slate-800">Shop Panel</h1>
+            <button onclick="location.reload()" class="text-slate-400"><i class="fas fa-sign-out-alt"></i></button>
+        </header>
+        <div class="p-6">
+            <div class="bg-slate-900 rounded-[30px] p-8 text-white mb-8 shadow-xl">
+                <h2 class="text-yellow-400 font-black mb-1 uppercase tracking-tighter">Waiver Target</h2>
+                <p class="text-xs text-slate-400 mb-4 uppercase">Sell products to make your fees zero</p>
+                <div class="w-full bg-slate-700 h-3 rounded-full mb-2">
+                    <div class="bg-yellow-500 h-3 rounded-full" style="width: 72%"></div>
                 </div>
-                <div class="bg-white p-8 rounded-3xl shadow-sm text-center">
-                    <p class="text-gray-400 font-bold mb-2">COUPONS</p>
-                    <p class="text-5xl font-black text-green-500">58</p>
+                <p class="text-sm font-bold">72% Completed - ₹2,800 to go!</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="bg-white p-6 rounded-2xl shadow-sm text-center">
+                    <p class="text-xs font-bold text-slate-400 uppercase mb-1">Today's Scans</p>
+                    <p class="text-4xl font-black text-blue-600">189</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm text-center">
+                    <p class="text-xs font-bold text-slate-400 uppercase mb-1">Total Profits</p>
+                    <p class="text-4xl font-black text-green-500">₹8.4k</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        function loginProcess() {
-            const u = document.getElementById('user').value.toLowerCase();
-            const p = document.getElementById('pass').value;
+        // Mock Database
+        let users = [
+            { username: 'admin', pass: 'admin123', role: 'admin', shop: 'Main' }
+        ];
 
-            // Simple Logic for Demo
-            if (u === 'admin' || u === 'lucky') {
-                showDash('adminDash');
-            } else if (u === 'merchant' || u === 'eggplanet') {
-                showDash('merchantDash');
+        function toggleAuth(type) {
+            if(type === 'login') {
+                document.getElementById('loginForm').classList.remove('hidden');
+                document.getElementById('registerForm').classList.add('hidden');
+                document.getElementById('loginTab').classList.add('tab-active');
+                document.getElementById('registerTab').classList.remove('tab-active');
             } else {
-                alert('Bhai, sahi User ID daalo!');
+                document.getElementById('loginForm').classList.add('hidden');
+                document.getElementById('registerForm').classList.remove('hidden');
+                document.getElementById('registerTab').classList.add('tab-active');
+                document.getElementById('loginTab').classList.remove('tab-active');
             }
         }
 
-        function quickLogin(type) {
-            if(type === 'admin') showDash('adminDash');
-            else showDash('merchantDash');
+        function handleRegister() {
+            const u = document.getElementById('rUser').value;
+            const p = document.getElementById('rPass').value;
+            const r = document.getElementById('rRole').value;
+            const s = document.getElementById('rShop').value;
+
+            if(u && p) {
+                users.push({ username: u, pass: p, role: r, shop: s });
+                alert("Registration Successful! Ab login kijiye.");
+                toggleAuth('login');
+            } else {
+                alert("Bhai, saari details dalo!");
+            }
         }
 
-        function showDash(id) {
-            document.getElementById('loginSection').classList.add('hidden');
-            document.getElementById(id).classList.remove('hidden');
-            window.scrollTo(0,0);
+        function handleLogin() {
+            const u = document.getElementById('lUser').value;
+            const p = document.getElementById('lPass').value;
+
+            const userFound = users.find(user => user.username === u && user.pass === p);
+
+            if(userFound) {
+                document.getElementById('authSection').classList.add('hidden');
+                if(userFound.role === 'admin') {
+                    document.getElementById('adminDash').classList.remove('hidden');
+                } else {
+                    document.getElementById('merchantDash').classList.remove('hidden');
+                    document.getElementById('dispShopName').innerText = userFound.shop;
+                }
+            } else {
+                alert("Galat Password ya ID! Register kiya kya?");
+            }
         }
     </script>
 </body>
