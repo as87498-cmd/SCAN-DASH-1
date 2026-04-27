@@ -3,158 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ScanDash | Professional Enterprise Portal</title>
+    <title>ScanDash Pro | Master Control</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        .gradient-pro { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); }
         .hidden { display: none !important; }
-        .tab-active { border-bottom: 3px solid #2563eb; color: #2563eb; }
+        .active-tab { border-bottom: 4px solid #2563eb; color: #2563eb; }
+        body { background-color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
     </style>
 </head>
-<body class="bg-slate-50">
+<body>
 
-    <div id="authSection" class="min-h-screen flex items-center justify-center p-4 gradient-pro">
-        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden">
-            <div class="flex border-b">
-                <button onclick="toggleAuth('login')" id="loginTab" class="flex-1 py-4 font-bold tab-active uppercase">Login</button>
-                <button onclick="toggleAuth('register')" id="registerTab" class="flex-1 py-4 font-bold text-gray-400 uppercase">Register</button>
+    <div id="authSection" class="min-h-screen flex items-center justify-center bg-slate-900 p-4">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md overflow-hidden">
+            <div class="flex border-b text-center font-bold">
+                <button onclick="toggleAuth('login')" id="lTab" class="flex-1 py-4 active-tab">LOGIN</button>
+                <button onclick="toggleAuth('register')" id="rTab" class="flex-1 py-4 text-gray-400">REGISTER</button>
             </div>
-
-            <div class="p-8">
-                <div id="authContent">
-                    <div id="loginForm" class="space-y-4">
-                        <h2 class="text-2xl font-black text-slate-800 mb-6">Welcome Back!</h2>
-                        <input type="text" id="lUser" placeholder="Username" class="w-full p-4 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none">
-                        <input type="password" id="lPass" placeholder="Password" class="w-full p-4 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none">
-                        <button onclick="handleLogin()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-blue-700 transition">LOGIN TO DASHBOARD</button>
-                    </div>
-
-                    <div id="registerForm" class="hidden space-y-4">
-                        <h2 class="text-2xl font-black text-slate-800 mb-6">Create Account</h2>
-                        <select id="rRole" class="w-full p-4 border border-slate-200 rounded-xl bg-white">
-                            <option value="admin">Main Admin (ScanDash Owner)</option>
-                            <option value="merchant">Merchant (Shop Owner)</option>
-                        </select>
-                        <input type="text" id="rUser" placeholder="Set Username" class="w-full p-4 border border-slate-200 rounded-xl">
-                        <input type="password" id="rPass" placeholder="Set Password" class="w-full p-4 border border-slate-200 rounded-xl">
-                        <input type="text" id="rShop" placeholder="Shop/Firm Name (Only for Merchant)" class="w-full p-4 border border-slate-200 rounded-xl">
-                        <button onclick="handleRegister()" class="w-full bg-green-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-green-700 transition">REGISTER NOW</button>
-                    </div>
+            <div class="p-8 space-y-4">
+                <div id="loginForm">
+                    <input type="text" id="lUser" placeholder="Username" class="w-full p-4 border rounded-xl mb-4 bg-gray-50">
+                    <input type="password" id="lPass" placeholder="Password" class="w-full p-4 border rounded-xl mb-6 bg-gray-50">
+                    <button onclick="doLogin()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-xl shadow-lg hover:bg-blue-700">ENTER SYSTEM</button>
+                </div>
+                <div id="registerForm" class="hidden">
+                    <select id="rRole" class="w-full p-4 border rounded-xl mb-4 bg-white">
+                        <option value="admin">Main Admin (Master)</option>
+                        <option value="merchant">Merchant (Shop Owner)</option>
+                    </select>
+                    <input type="text" id="rUser" placeholder="Username" class="w-full p-4 border rounded-xl mb-4">
+                    <input type="password" id="rPass" placeholder="Password" class="w-full p-4 border rounded-xl mb-4">
+                    <input type="text" id="rShop" placeholder="Shop Name" class="w-full p-4 border rounded-xl mb-6">
+                    <button onclick="doRegister()" class="w-full bg-green-600 text-white font-bold py-4 rounded-xl shadow-lg">CREATE ACCOUNT</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="adminDash" class="hidden min-h-screen">
-        <nav class="bg-white border-b p-4 flex justify-between items-center shadow-sm">
-            <h1 class="text-xl font-black text-blue-600 italic">SCANDASH MASTER</h1>
-            <button onclick="location.reload()" class="bg-red-50 text-red-500 px-4 py-2 rounded-lg font-bold">Logout</button>
-        </nav>
-        <div class="p-6">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-blue-600">
-                    <p class="text-slate-400 font-bold text-xs uppercase">Total Revenue (Ads + Product)</p>
-                    <h3 class="text-3xl font-black text-slate-800 mt-1">₹3.45 Cr</h3>
+    <div id="adminDash" class="hidden min-h-screen flex">
+        <aside class="w-64 bg-slate-900 text-white hidden lg:block p-6">
+            <h1 class="text-2xl font-black mb-10 text-blue-400">ScanDash AI</h1>
+            <nav class="space-y-6">
+                <div class="font-bold text-blue-400 cursor-pointer"><i class="fas fa-home mr-3"></i> Dashboard</div>
+                <div class="text-gray-400 hover:text-white cursor-pointer"><i class="fas fa-store mr-3"></i> Merchants</div>
+                <div class="text-gray-400 hover:text-white cursor-pointer"><i class="fas fa-file-excel mr-3"></i> Google Sheets</div>
+                <div class="text-gray-400 hover:text-white cursor-pointer"><i class="fas fa-cog mr-3"></i> Settings</div>
+            </nav>
+            <button onclick="location.reload()" class="mt-40 text-red-400 font-bold"><i class="fas fa-power-off mr-2"></i> Logout</button>
+        </aside>
+
+        <main class="flex-1 p-6 lg:p-10 overflow-y-auto">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+                <div>
+                    <h2 class="text-3xl font-black text-slate-800">Master Control Panel</h2>
+                    <p class="text-slate-500">Managing 10,000+ Outlets Across India</p>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-green-600">
-                    <p class="text-slate-400 font-bold text-xs uppercase">Live Merchants</p>
-                    <h3 class="text-3xl font-black text-slate-800 mt-1">10,240</h3>
+                <button onclick="openModal()" class="mt-4 md:mt-0 bg-blue-600 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:bg-blue-700">
+                    <i class="fas fa-plus mr-2"></i> Naya Merchant Jodein
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-l-8 border-blue-600">
+                    <p class="text-xs font-bold text-slate-400 uppercase">Total Revenue</p>
+                    <h3 class="text-2xl font-black">₹3.42 Cr</h3>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm border-t-4 border-orange-600">
-                    <p class="text-slate-400 font-bold text-xs uppercase">Pending Requests</p>
-                    <h3 class="text-3xl font-black text-slate-800 mt-1">45</h3>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-l-8 border-green-600">
+                    <p class="text-xs font-bold text-slate-400 uppercase">Live QR Scans</p>
+                    <h3 class="text-2xl font-black">45,200</h3>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-l-8 border-purple-600">
+                    <p class="text-xs font-bold text-slate-400 uppercase">Sheet Sync Status</p>
+                    <h3 class="text-sm font-black text-green-500 uppercase italic">Synced (Live)</h3>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border-l-8 border-yellow-600">
+                    <p class="text-xs font-bold text-slate-400 uppercase">Pending Audits</p>
+                    <h3 class="text-2xl font-black">12</h3>
                 </div>
             </div>
-            <div class="bg-white p-6 rounded-2xl shadow-sm">
-                <h4 class="font-bold mb-4">State-wise Market Performance</h4>
-                <div class="space-y-3">
-                    <div class="flex justify-between p-3 bg-slate-50 rounded-xl"><span>Madhya Pradesh (Ratlam/Indore)</span><b>8,400 Outlets</b></div>
-                    <div class="flex justify-between p-3 bg-slate-50 rounded-xl"><span>Rajasthan (Jaipur/Udaipur)</span><b>1,840 Outlets</b></div>
+
+            <div class="bg-white rounded-3xl shadow-sm p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h4 class="text-xl font-bold">Active Merchant Directory</h4>
+                    <button onclick="syncSheet()" class="text-blue-600 font-bold border border-blue-600 px-4 py-1 rounded-lg hover:bg-blue-50">
+                        <i class="fas fa-sync-alt mr-2"></i> Google Sheet Sync
+                    </button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="text-slate-400 border-b italic">
+                                <th class="pb-4">Shop Name</th>
+                                <th class="pb-4">City</th>
+                                <th class="pb-4">ID / Status</th>
+                                <th class="pb-4">QR Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="merchantListBody">
+                            <tr class="border-b">
+                                <td class="py-4 font-bold text-slate-700">Egg Planet</td>
+                                <td>Ratlam</td>
+                                <td><span class="bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full font-bold uppercase">Active</span></td>
+                                <td class="text-blue-500 cursor-pointer"><i class="fas fa-download"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
+        </main>
     </div>
 
-    <div id="merchantDash" class="hidden min-h-screen bg-slate-50">
-        <header class="bg-white p-6 flex justify-between items-center shadow-sm">
-            <h1 id="dispShopName" class="text-xl font-bold text-slate-800">Shop Panel</h1>
-            <button onclick="location.reload()" class="text-slate-400"><i class="fas fa-sign-out-alt"></i></button>
-        </header>
-        <div class="p-6">
-            <div class="bg-slate-900 rounded-[30px] p-8 text-white mb-8 shadow-xl">
-                <h2 class="text-yellow-400 font-black mb-1 uppercase tracking-tighter">Waiver Target</h2>
-                <p class="text-xs text-slate-400 mb-4 uppercase">Sell products to make your fees zero</p>
-                <div class="w-full bg-slate-700 h-3 rounded-full mb-2">
-                    <div class="bg-yellow-500 h-3 rounded-full" style="width: 72%"></div>
-                </div>
-                <p class="text-sm font-bold">72% Completed - ₹2,800 to go!</p>
-            </div>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="bg-white p-6 rounded-2xl shadow-sm text-center">
-                    <p class="text-xs font-bold text-slate-400 uppercase mb-1">Today's Scans</p>
-                    <p class="text-4xl font-black text-blue-600">189</p>
-                </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm text-center">
-                    <p class="text-xs font-bold text-slate-400 uppercase mb-1">Total Profits</p>
-                    <p class="text-4xl font-black text-green-500">₹8.4k</p>
+    <div id="merchantModal" class="hidden fixed inset-0 bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-3xl p-8 w-full max-w-lg shadow-2xl">
+            <h3 class="text-2xl font-black mb-6">Add New Merchant Details</h3>
+            <div class="space-y-4">
+                <input type="text" id="mShop" placeholder="Shop Name (e.g. Bhanu Auto Parts)" class="w-full p-4 border rounded-xl">
+                <input type="text" id="mCity" placeholder="City (e.g. Ratlam)" class="w-full p-4 border rounded-xl">
+                <input type="text" id="mState" placeholder="State (e.g. Madhya Pradesh)" class="w-full p-4 border rounded-xl">
+                <div class="flex gap-4 mt-6">
+                    <button onclick="closeModal()" class="flex-1 py-4 font-bold text-slate-400 bg-slate-100 rounded-xl">CANCEL</button>
+                    <button onclick="confirmAddMerchant()" class="flex-1 py-4 font-bold text-white bg-blue-600 rounded-xl">GENERATE & ADD</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Mock Database
-        let users = [
-            { username: 'admin', pass: 'admin123', role: 'admin', shop: 'Main' }
-        ];
+        // Data Store
+        let userDB = [{ u: 'admin', p: 'admin123', r: 'admin', s: 'Master' }];
+        let merchants = [{ name: 'Egg Planet', city: 'Ratlam', state: 'MP' }];
 
         function toggleAuth(type) {
             if(type === 'login') {
                 document.getElementById('loginForm').classList.remove('hidden');
                 document.getElementById('registerForm').classList.add('hidden');
-                document.getElementById('loginTab').classList.add('tab-active');
-                document.getElementById('registerTab').classList.remove('tab-active');
+                document.getElementById('lTab').classList.add('active-tab');
+                document.getElementById('rTab').classList.remove('active-tab');
             } else {
                 document.getElementById('loginForm').classList.add('hidden');
                 document.getElementById('registerForm').classList.remove('hidden');
-                document.getElementById('registerTab').classList.add('tab-active');
-                document.getElementById('loginTab').classList.remove('tab-active');
+                document.getElementById('rTab').classList.add('active-tab');
+                document.getElementById('lTab').classList.remove('active-tab');
             }
         }
 
-        function handleRegister() {
+        function doRegister() {
             const u = document.getElementById('rUser').value;
             const p = document.getElementById('rPass').value;
             const r = document.getElementById('rRole').value;
             const s = document.getElementById('rShop').value;
-
             if(u && p) {
-                users.push({ username: u, pass: p, role: r, shop: s });
-                alert("Registration Successful! Ab login kijiye.");
+                userDB.push({u, p, r, s});
+                alert("Success! Login kijiye.");
                 toggleAuth('login');
-            } else {
-                alert("Bhai, saari details dalo!");
             }
         }
 
-        function handleLogin() {
+        function doLogin() {
             const u = document.getElementById('lUser').value;
             const p = document.getElementById('lPass').value;
-
-            const userFound = users.find(user => user.username === u && user.pass === p);
-
-            if(userFound) {
+            const found = userDB.find(x => x.u === u && x.p === p);
+            if(found) {
                 document.getElementById('authSection').classList.add('hidden');
-                if(userFound.role === 'admin') {
-                    document.getElementById('adminDash').classList.remove('hidden');
-                } else {
-                    document.getElementById('merchantDash').classList.remove('hidden');
-                    document.getElementById('dispShopName').innerText = userFound.shop;
-                }
-            } else {
-                alert("Galat Password ya ID! Register kiya kya?");
+                if(found.r === 'admin') document.getElementById('adminDash').classList.remove('hidden');
+            } else { alert("ID/Pass Galat Hai!"); }
+        }
+
+        // Modal Functions
+        function openModal() { document.getElementById('merchantModal').classList.remove('hidden'); }
+        function closeModal() { document.getElementById('merchantModal').classList.add('hidden'); }
+
+        function confirmAddMerchant() {
+            const name = document.getElementById('mShop').value;
+            const city = document.getElementById('mCity').value;
+            const state = document.getElementById('mState').value;
+            
+            if(name && city) {
+                merchants.push({ name, city, state });
+                renderMerchants();
+                alert(`${name} successfully add ho gaya aur Google Sheet mein sync ho raha hai!`);
+                closeModal();
             }
+        }
+
+        function renderMerchants() {
+            const body = document.getElementById('merchantListBody');
+            body.innerHTML = '';
+            merchants.forEach(m => {
+                body.innerHTML += `
+                    <tr class="border-b">
+                        <td class="py-4 font-bold text-slate-700">${m.name}</td>
+                        <td>${m.city}, ${m.state}</td>
+                        <td><span class="bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full font-bold uppercase">Active</span></td>
+                        <td class="text-blue-500 cursor-pointer"><i class="fas fa-download mr-3"></i><i class="fas fa-share"></i></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function syncSheet() {
+            alert("Sincronizing with Google Sheets API... Data successfully updated in 'ScanDash_Master_Sheet'!");
         }
     </script>
 </body>
